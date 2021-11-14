@@ -1,0 +1,24 @@
+schema: '2.0'
+stages:
+  stage_01_load_save:
+    cmd: python src/stage_01_load_save.py --config=configs/config.yaml
+    deps:
+    - path: configs/config.yaml
+      md5: 2a2b552ea0ea432bd49537b4a2ee4226
+      size: 583
+    - path: src/stage_01_load_save.py
+      md5: d850db790bf9e7aecf27269a9970afb9
+      size: 2025
+    - path: src/utils/all_utils.py
+      md5: 503c4729e4c33f2363411bc586f19ebd
+      size: 2879
+    outs:
+    - path: artifacts/Data/atis_intents.csv
+      md5: 9f19d740a9876212b24bc0dd89b508a1
+      size: 391936
+    - path: artifacts/Data/atis_intents_test.csv
+      md5: 512f03dfe6642cfcddb63d59ea93df20
+      size: 58152
+    - path: artifacts/Data/atis_intents_train.csv
+      md5: d7358f4c0510c4e3263adbecf6227cf6
+      size: 381136

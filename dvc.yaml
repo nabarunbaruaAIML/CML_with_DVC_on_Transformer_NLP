@@ -1,8 +1,12 @@
 # add stages here 
-# stages:
-#   stage_name:
-#     cmd: python src/stage_01______.py
-#     deps:
-#     - src/stage_01______.py
-#     outs:
-#     - output_data_of_file_path
+stages:
+  stage_01_load_save:
+    cmd: python src/stage_01_load_save.py --config=configs/config.yaml
+    deps:
+    - src/stage_01_load_save.py
+    - src/utils/all_utils.py
+    - configs/config.yaml
+    outs:
+    - artifacts/Data/atis_intents_test.csv
+    - artifacts/Data/atis_intents_train.csv
+    - artifacts/Data/atis_intents.csv
