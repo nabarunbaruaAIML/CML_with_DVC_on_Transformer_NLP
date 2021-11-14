@@ -4,10 +4,19 @@ with open("README.md", "r", encoding="utf-8") as f:
     long_description = f.read()
 
 ## edit below variables as per your requirements -
-REPO_NAME = "REPO_NAME"
-AUTHOR_USER_NAME = "c17hawke"
+REPO_NAME = "CML_with_DVC_on_Transformer_NLP.git"
+AUTHOR_USER_NAME = "nabarunbaruaAIML"
 SRC_REPO = "src"
-LIST_OF_REQUIREMENTS = []
+LIST_OF_REQUIREMENTS = ['tqdm',
+                        'dvc',
+                        'pandas',
+                        'numpy',
+                        'transformers',
+                        'datasets',
+                        'PyYAML', 
+                        'boto3',
+                        'matplotlib'
+                        ]
 
 
 setup(
@@ -18,7 +27,7 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url=f"https://github.com/{AUTHOR_USER_NAME}/{REPO_NAME}",
-    author_email="sunny.c17hawke@gmail.com",
+    author_email="nabarun.barua@outlook.com",
     packages=[SRC_REPO],
     license="MIT",
     python_requires=">=3.6",
