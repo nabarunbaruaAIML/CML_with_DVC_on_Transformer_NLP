@@ -2,7 +2,11 @@
 
 artifacts:
   DOWNLOAD_DATA_DIR: Data
-  DOWNLOAD_DATA_NAME: Data.csv
+  DOWNLOAD_DATA_NAME: Data.json
+  local_data_dirs_filename: atis_intents.csv
+  ID2LABEL: id2label.json
+  LABEL2ID: label2id.json
+  LABEL_NUM: label_num.json
   ARTIFACTS_DIR: artifacts
   TRAINED_MODEL_DIR: model
   BASE_MODEL_DIR: base_model
@@ -23,4 +27,4 @@ local_data_dirs:
   - artifacts/data
 
 source_download_dirs: 
-  - ../outside_data/Text_Classification/atis_intents.csv
+  - ../outside_data/Text_Classification
