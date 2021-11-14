@@ -1,6 +1,7 @@
 # It contains all the configs required in the project
 
 artifacts:
+  DOWNLOAD_DATA_DIR: Data
   ARTIFACTS_DIR: artifacts
   TRAINED_MODEL_DIR: model
   BASE_MODEL_DIR: base_model
@@ -11,10 +12,12 @@ artifacts:
   TENSORBOARD_ROOT_LOG_DIR: tensorboard_log_dir
   CALLBACKS_DIR: callbacks
 
-source_download_dirs:
-  - path_to_data_1
-  - path_to_data_1
+# source_download_dirs:
+#   - path_to_data_1
+#   - path_to_data_1
 
 local_data_dirs:
-  - path_to_local_data_1
-  - path_to_local_data_2
+  - artifacts/data
+
+source_download_dirs:
+  - ../outside_data/Text_Classification
