@@ -1,6 +1,11 @@
 ### dependency
 tqdm
 dvc
+pandas
+numpy
+transformers
+datasets
+
 
 
 ### local packages -
