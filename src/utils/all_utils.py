@@ -64,7 +64,7 @@ def get_timestamp(name):
     unique_name = f"{name}_at_{timestamp}"
     return unique_name
 
-def get_input_ids(df,tokeniser,stop_words):
+def get_input_ids(df,tokeniser,stop_words=None):
     inp_ids = []
     attension_mask= []
     df = df.tolist()
@@ -74,7 +74,7 @@ def get_input_ids(df,tokeniser,stop_words):
         attension_mask.append(output['attention_mask'])
     return inp_ids,attension_mask
 
-def read_data(string,tokenizer,stop_words):
+def read_data(string,tokenizer,stop_words=None):
     json = {}
     df = pd.read_csv(string)
     DataFrame_Filtered = df.iloc[:,0:2]
@@ -90,3 +90,9 @@ def read_data(string,tokenizer,stop_words):
     json['attention_mask']= attension_mask
     json['labels']= Label 
     return json,id2label,label2id,label_num,Label_set
+
+def save_json(path, data):
+    with open(path, "w") as f:
+        json.dump(data, f, indent=4)
+
+    logging.info(f"json file saved at: {path}")
