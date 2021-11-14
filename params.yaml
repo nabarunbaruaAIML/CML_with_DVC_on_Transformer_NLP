@@ -1,1 +1,8 @@
 # This contains params to be used by the stages to train or predict
+model:
+  BASE_MODEL_NAME: albert-base-v2
+  use_fast: True
+  padding: 'max_length'
+  max_length: 128
+  truncation: True
+  
