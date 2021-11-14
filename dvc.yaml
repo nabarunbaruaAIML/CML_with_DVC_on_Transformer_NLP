@@ -22,7 +22,7 @@ stages:
       - model.base_model
       - model.use_fast
     outs:
-      - artifacts/Data/Data.json
+      - artifacts/Data/Data.csv
       - artifacts/Data/id2label.json
       - artifacts/Data/label_num.json
       - artifacts/Data/label2id.json

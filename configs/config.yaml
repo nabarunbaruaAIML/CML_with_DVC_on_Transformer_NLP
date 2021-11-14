@@ -2,7 +2,7 @@
 
 artifacts:
   DOWNLOAD_DATA_DIR: Data
-  DOWNLOAD_DATA_NAME: Data.json
+  DOWNLOAD_DATA_NAME: Data.csv
   local_data_dirs_filename: atis_intents.csv
   ID2LABEL: id2label.json
   LABEL2ID: label2id.json
@@ -28,4 +28,4 @@ local_data_dirs:
 
 source_download_dirs: 
   - ../outside_data/Text_Classification
-  
+

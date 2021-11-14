@@ -4,8 +4,8 @@ stages:
     cmd: python src/stage_01_load_save.py --config=configs/config.yaml
     deps:
     - path: configs/config.yaml
-      md5: a73c144cf99f3b7d1061c13b22034581
-      size: 795
+      md5: b7e03acce2241b8501a2332b674e7ad6
+      size: 792
     - path: src/stage_01_load_save.py
       md5: b6794d9e081ca227b75e0b84e03107e6
       size: 2128
@@ -29,11 +29,11 @@ stages:
       md5: 9f19d740a9876212b24bc0dd89b508a1
       size: 391936
     - path: configs/config.yaml
-      md5: a73c144cf99f3b7d1061c13b22034581
-      size: 795
+      md5: b7e03acce2241b8501a2332b674e7ad6
+      size: 792
     - path: src/stage_02_prepare_data.py
-      md5: 8a409aa1936071132e7200c3cd746184
-      size: 3079
+      md5: bb84b6c67a3fe47652816f244cd51044
+      size: 3299
     - path: src/utils/all_utils.py
       md5: 2f15f96232272570d76494f69fbca097
       size: 3772
@@ -42,9 +42,9 @@ stages:
         model.base_model: albert-base-v2
         model.use_fast: true
     outs:
-    - path: artifacts/Data/Data.json
-      md5: 4f0355852c9895d7d9398760b82e15b9
-      size: 20784357
+    - path: artifacts/Data/Data.csv
+      md5: c63b12fede80cb3caabe3e53703f1938
+      size: 3986929
     - path: artifacts/Data/id2label.json
       md5: 4eb8692137a88c2bfb00f3d41e3f59b9
       size: 707

@@ -5,6 +5,8 @@ from tqdm import tqdm
 import logging
 from src.utils.all_utils import read_yaml,create_directory,read_data,save_json
 from transformers import AutoTokenizer
+from datasets import load_dataset
+import pandas as pd
 
 logging_str = "[%(asctime)s: %(levelname)s: %(module)s]: %(message)s"
 log_dir = "logs"
@@ -57,10 +59,13 @@ def main(config_path):
     json,id2label,label2id,label_num,Label_set = read_data(local_data_dirs_filename,tokenizer)
     label_num_json = {}
     label_num_json['Number_of_Label'] = label_num
-    save_json(DownloadData_filename_path,json)
+    # save_json(DownloadData_filename_path,json)
     save_json(ID2LABEL_filename_path,id2label)
     save_json(LABEL2ID_filename_path,label2id)
     save_json(LABEL_NUM_filename_path,label_num_json)
+    df = pd.DataFrame(json)
+    df.to_csv(DownloadData_filename_path,index= False)
+    # dataset = load_dataset('csv', data_files='./artifacts/Data/Data.csv')
 
 if __name__ == '__main__':
     args = argparse.ArgumentParser()
