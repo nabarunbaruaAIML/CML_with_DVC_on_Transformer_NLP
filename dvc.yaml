@@ -3,10 +3,27 @@ stages:
   stage_01_load_save:
     cmd: python src/stage_01_load_save.py --config=configs/config.yaml
     deps:
-    - src/stage_01_load_save.py
-    - src/utils/all_utils.py
-    - configs/config.yaml
+      - src/stage_01_load_save.py
+      - src/utils/all_utils.py
+      - configs/config.yaml
     outs:
-    - artifacts/Data/atis_intents_test.csv
-    - artifacts/Data/atis_intents_train.csv
-    - artifacts/Data/atis_intents.csv
+      - artifacts/Data/atis_intents_test.csv
+      - artifacts/Data/atis_intents_train.csv
+      - artifacts/Data/atis_intents.csv
+ 
+  stage_02_prepare_data:
+    cmd: python src/stage_02_prepare_data.py --config=configs/config.yaml --params=params.yaml
+    deps:
+      - src/stage_02_prepare_data.py
+      - src/utils/all_utils.py
+      - configs/config.yaml
+      - artifacts/Data/atis_intents.csv
+    params:
+      - model.base_model
+      - model.use_fast
+    outs:
+      - artifacts/Data/Data.json
+      - artifacts/Data/id2label.json
+      - artifacts/Data/label_num.json
+      - artifacts/Data/label2id.json
+      - artifacts/base_model
