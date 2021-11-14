@@ -1,3 +1,7 @@
 /atis_intents_test.csv
 /atis_intents_train.csv
 /atis_intents.csv
+/Data.json
+/id2label.json
+/label_num.json
+/label2id.json

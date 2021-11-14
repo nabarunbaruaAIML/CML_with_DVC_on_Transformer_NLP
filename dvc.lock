@@ -4,14 +4,14 @@ stages:
     cmd: python src/stage_01_load_save.py --config=configs/config.yaml
     deps:
     - path: configs/config.yaml
-      md5: 2a2b552ea0ea432bd49537b4a2ee4226
-      size: 583
+      md5: 638b49748dbb4f9da9cd94cd98a21e0c
+      size: 791
     - path: src/stage_01_load_save.py
       md5: b6794d9e081ca227b75e0b84e03107e6
       size: 2128
     - path: src/utils/all_utils.py
-      md5: b177b1e53d761d1ba1321120ad25d7bb
-      size: 3611
+      md5: 2f15f96232272570d76494f69fbca097
+      size: 3772
     outs:
     - path: artifacts/Data/atis_intents.csv
       md5: 9f19d740a9876212b24bc0dd89b508a1
@@ -22,3 +22,39 @@ stages:
     - path: artifacts/Data/atis_intents_train.csv
       md5: d7358f4c0510c4e3263adbecf6227cf6
       size: 381136
+  stage_02_prepare_data:
+    cmd: python src/stage_02_prepare_data.py --config=configs/config.yaml --params=params.yaml
+    deps:
+    - path: artifacts/Data/atis_intents.csv
+      md5: 9f19d740a9876212b24bc0dd89b508a1
+      size: 391936
+    - path: configs/config.yaml
+      md5: 638b49748dbb4f9da9cd94cd98a21e0c
+      size: 791
+    - path: src/stage_02_prepare_data.py
+      md5: 8a409aa1936071132e7200c3cd746184
+      size: 3079
+    - path: src/utils/all_utils.py
+      md5: 2f15f96232272570d76494f69fbca097
+      size: 3772
+    params:
+      params.yaml:
+        model.base_model: albert-base-v2
+        model.use_fast: true
+    outs:
+    - path: artifacts/Data/Data.json
+      md5: 4f0355852c9895d7d9398760b82e15b9
+      size: 20784357
+    - path: artifacts/Data/id2label.json
+      md5: 4eb8692137a88c2bfb00f3d41e3f59b9
+      size: 707
+    - path: artifacts/Data/label2id.json
+      md5: c5791b32b443d9521edf3ac383748985
+      size: 663
+    - path: artifacts/Data/label_num.json
+      md5: 720ce1dfb128c5878d779d4ad13c3073
+      size: 31
+    - path: artifacts/base_model
+      md5: 9ac923b40c55fdf3a26ce780c2d0cc6c.dir
+      size: 2074033
+      nfiles: 6
