@@ -45,6 +45,19 @@ def copy_file(source_download_dir, local_data_dir):
     #     src = os.path.join(source_download_dir, file)
     #     dest = os.path.join(local_data_dir, file)
     #     shutil.copy(src, dest)
+def copy_file_csv(source_download_dir, local_data_dir):
+    list_of_files =[ listfile for listfile in os.listdir(source_download_dir) if listfile.endswith('.csv') ] 
+    N = len(list_of_files)
+    
+    for file in list_of_files:
+        src = os.path.join(source_download_dir, file)
+        dest = os.path.join(local_data_dir, file)
+        shutil.copy(src, dest)
+        logging.info(f"Copying File from {src} to {dest} Completed! Succefully")
+    # for file in tqdm(list_of_files, total=N, desc=f"copying file from {source_download_dir} to {local_data_dir}", colour="green"):
+    #     src = os.path.join(source_download_dir, file)
+    #     dest = os.path.join(local_data_dir, file)
+    #     shutil.copy(src, dest)
     
 def get_timestamp(name):
     timestamp = time.asctime().replace(" ", "_").replace(":", "_")

@@ -3,7 +3,7 @@ import os
 import shutil
 from tqdm import tqdm
 import logging
-from src.utils.all_utils import read_yaml, create_directory,copy_file
+from src.utils.all_utils import read_yaml, create_directory,copy_file_csv
 
 
 # logging_str = "[%(asctime)s: %(levelname)s: %(module)s]: %(message)s"
@@ -32,7 +32,7 @@ def main(config_path):
     for source_download_dir, local_data_dir in tqdm(zip(source_download_dirs, local_data_dirs), total=1, desc= "list of folders", colour="red"):
         create_directory([local_data_dir])
         logging.info(f"Copying Files from directory {source_download_dir} to {local_data_dir} Started")
-        copy_file(source_download_dir, local_data_dir)
+        copy_file_csv(source_download_dir, local_data_dir)
     logging.info(f"Copying Files Completed Successfully")
     
 
