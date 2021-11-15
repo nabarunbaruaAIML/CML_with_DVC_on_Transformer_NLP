@@ -50,13 +50,13 @@ def main(config_path):
     model = params['model']
     model_name = model['base_model']
     use_fast =  model['use_fast']
-    # padding =  model['padding']
-    # max_length =  model['max_length']
-    # truncation =  model['truncation']
+    padding =  model['padding']
+    max_length =  model['max_length']
+    truncation =  model['truncation']
     # secret = read_yaml(config_path.secret)
     
     tokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=use_fast,cache_dir = base_model_path )
-    json,id2label,label2id,label_num,Label_set = read_data(local_data_dirs_filename,tokenizer)
+    json,id2label,label2id,label_num,Label_set = read_data(local_data_dirs_filename,tokenizer,padding,max_length,truncation)
     label_num_json = {}
     label_num_json['Number_of_Label'] = label_num
     # save_json(DownloadData_filename_path,json)

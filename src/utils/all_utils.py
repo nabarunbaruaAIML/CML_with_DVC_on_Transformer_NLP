@@ -64,17 +64,17 @@ def get_timestamp(name):
     unique_name = f"{name}_at_{timestamp}"
     return unique_name
 
-def get_input_ids(df,tokeniser,stop_words=None):
+def get_input_ids(df,tokeniser,padding,max_length,truncation,stop_words=None):
     inp_ids = []
     attension_mask= []
     df = df.tolist()
     for i in df:
-        output = tokeniser(i, truncation=True,padding ='max_length',max_length=128)
+        output = tokeniser(i, truncation=truncation,padding =padding,max_length=max_length)
         inp_ids.append(output['input_ids'])
         attension_mask.append(output['attention_mask'])
     return inp_ids,attension_mask
 
-def read_data(string,tokenizer,stop_words=None):
+def read_data(string,tokenizer,padding,max_length,truncation,stop_words=None):
     json = {}
     df = pd.read_csv(string)
     DataFrame_Filtered = df.iloc[:,0:2]
@@ -83,7 +83,7 @@ def read_data(string,tokenizer,stop_words=None):
     label_num = len( Label_set )
     id2label = {k:v for k,v in enumerate(Label_set,0)}
     label2id = {v:k for k,v in enumerate(Label_set,0)}
-    inp_ids,attension_mask = get_input_ids(DataFrame_Filtered.iloc[:,1],tokenizer,stop_words)
+    inp_ids,attension_mask = get_input_ids(DataFrame_Filtered.iloc[:,1],tokenizer,padding,max_length,truncation,stop_words)
     DataFrame_Filtered1 = DataFrame_Filtered.iloc[:,0].map(lambda x: label2id[x]).copy()
     Label = DataFrame_Filtered1.tolist()
     json['input_ids'] =inp_ids

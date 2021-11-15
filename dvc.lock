@@ -10,8 +10,8 @@ stages:
       md5: b6794d9e081ca227b75e0b84e03107e6
       size: 2128
     - path: src/utils/all_utils.py
-      md5: 2f15f96232272570d76494f69fbca097
-      size: 3772
+      md5: fb3f2b9b2348a8932d25205f699f2187
+      size: 3870
     outs:
     - path: artifacts/Data/atis_intents.csv
       md5: 9f19d740a9876212b24bc0dd89b508a1
@@ -32,14 +32,17 @@ stages:
       md5: b7e03acce2241b8501a2332b674e7ad6
       size: 792
     - path: src/stage_02_prepare_data.py
-      md5: bb84b6c67a3fe47652816f244cd51044
-      size: 3299
+      md5: 8c86e296ad8584e2fd3d0a8d3beb0e23
+      size: 3323
     - path: src/utils/all_utils.py
-      md5: 2f15f96232272570d76494f69fbca097
-      size: 3772
+      md5: fb3f2b9b2348a8932d25205f699f2187
+      size: 3870
     params:
       params.yaml:
         model.base_model: albert-base-v2
+        model.max_length: 128
+        model.padding: max_length
+        model.truncation: true
         model.use_fast: true
     outs:
     - path: artifacts/Data/Data.csv
