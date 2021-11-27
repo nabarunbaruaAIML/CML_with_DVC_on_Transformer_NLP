@@ -66,6 +66,11 @@ def main(config_path):
     df = pd.DataFrame(json)
     df.to_csv(DownloadData_filename_path,index= False)
     # dataset = load_dataset('csv', data_files='./artifacts/Data/Data.csv')
+    # datasets.load_from_disk  DownloadData_path
+    # dataset.save_to_disk  DownloadData_path
+    # https://huggingface.co/docs/datasets/package_reference/main_classes.html#datasets.Dataset.save_to_disk
+    # https://huggingface.co/docs/datasets/package_reference/loading_methods.html#datasets
+    
 
 if __name__ == '__main__':
     args = argparse.ArgumentParser()
