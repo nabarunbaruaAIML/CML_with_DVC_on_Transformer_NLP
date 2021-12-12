@@ -65,6 +65,7 @@ def main(config_path):
     save_json(LABEL_NUM_filename_path,label_num_json)
     df = pd.DataFrame(json)
     df.to_csv(DownloadData_filename_path,index= False)
+    logging.info(f"Saved transition Data into path {DownloadData_filename_path} Succefully!")
     # dataset = load_dataset('csv', data_files='./artifacts/Data/Data.csv')
     # datasets.load_from_disk  DownloadData_path
     # dataset.save_to_disk  DownloadData_path
