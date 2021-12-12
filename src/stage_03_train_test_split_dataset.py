@@ -6,6 +6,7 @@ import logging
 from src.utils.all_utils import read_yaml,create_directory,read_data,save_json
 from transformers import AutoTokenizer
 from datasets import load_dataset
+from datasets import Dataset
 
 logging_str = "[%(asctime)s: %(levelname)s: %(module)s]: %(message)s"
 log_dir = "logs"
@@ -25,8 +26,18 @@ def main(config_path):
     DownloadData =  artifacts['DOWNLOAD_DATA_DIR']
     DownloadData_path = os.path.join(artifacts_dir,DownloadData)
     DownloadData_filename =  artifacts['DOWNLOAD_DATA_NAME']
+    Dataset_dir = artifacts['Dataset_dir']
     DownloadData_filename_path = os.path.join(DownloadData_path ,DownloadData_filename)
-    dataset = load_dataset('csv', data_files= DownloadData_filename_path )#'./artifacts/Data/Data.csv')
+    
+    
+    Dataset_path = os.path.join(DownloadData_path ,Dataset_dir)
+    dataset = load_dataset('csv', data_files= DownloadData_filename_path,  split='train[:100%]' )#'./artifacts/Data/Data.csv')
+    dataset = dataset.train_test_split(test_size=0.1)
+    # print(dataset)
+     
+    dataset.save_to_disk(Dataset_path)
+    logging.info(f"Saved Dataset to path {Dataset_path} Succefully and Dataset = {dataset}")
+    
     # params = read_yaml(config_path.params)
     # secret = read_yaml(config_path.secret)
     # pass
