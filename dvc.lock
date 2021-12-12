@@ -4,14 +4,14 @@ stages:
     cmd: python src/stage_01_load_save.py --config=configs/config.yaml
     deps:
     - path: configs/config.yaml
-      md5: b7e03acce2241b8501a2332b674e7ad6
-      size: 792
+      md5: 688a3e75e8fa814c595f92a3439c778a
+      size: 816
     - path: src/stage_01_load_save.py
       md5: b6794d9e081ca227b75e0b84e03107e6
       size: 2128
     - path: src/utils/all_utils.py
-      md5: fb3f2b9b2348a8932d25205f699f2187
-      size: 3870
+      md5: a62828a899b7c1f640022613cc360b66
+      size: 3931
     outs:
     - path: artifacts/Data/atis_intents.csv
       md5: 9f19d740a9876212b24bc0dd89b508a1
@@ -29,14 +29,14 @@ stages:
       md5: 9f19d740a9876212b24bc0dd89b508a1
       size: 391936
     - path: configs/config.yaml
-      md5: b7e03acce2241b8501a2332b674e7ad6
-      size: 792
+      md5: 688a3e75e8fa814c595f92a3439c778a
+      size: 816
     - path: src/stage_02_prepare_data.py
-      md5: 8c86e296ad8584e2fd3d0a8d3beb0e23
-      size: 3323
+      md5: bc3a892fd762d607ba6deccd7176d487
+      size: 3723
     - path: src/utils/all_utils.py
-      md5: fb3f2b9b2348a8932d25205f699f2187
-      size: 3870
+      md5: a62828a899b7c1f640022613cc360b66
+      size: 3931
     params:
       params.yaml:
         model.base_model: albert-base-v2
@@ -61,3 +61,27 @@ stages:
       md5: 9ac923b40c55fdf3a26ce780c2d0cc6c.dir
       size: 2074033
       nfiles: 6
+  stage_03_dataset_split:
+    cmd: python src/stage_03_train_test_split_dataset.py --config=configs/config.yaml
+      --params=params.yaml
+    deps:
+    - path: artifacts/Data/Data.csv
+      md5: c63b12fede80cb3caabe3e53703f1938
+      size: 3986929
+    - path: configs/config.yaml
+      md5: 688a3e75e8fa814c595f92a3439c778a
+      size: 816
+    - path: src/stage_03_train_test_split_dataset.py
+      md5: f1755275c4c9c1511a491a27148d5250
+      size: 2283
+    - path: src/utils/all_utils.py
+      md5: a62828a899b7c1f640022613cc360b66
+      size: 3931
+    params:
+      params.yaml:
+        Dataset.test_size: 0.1
+    outs:
+    - path: artifacts/Data/Dataset
+      md5: 9878c49cd151fe21328d22518eb2bc18.dir
+      size: 4023371
+      nfiles: 7

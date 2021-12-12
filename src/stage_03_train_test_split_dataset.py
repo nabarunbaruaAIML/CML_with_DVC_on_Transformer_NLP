@@ -21,6 +21,11 @@ logging.basicConfig(
 STAGE = 'Stage 03'
 def main(config_path):
     config = read_yaml(config_path.config)
+    params = read_yaml(config_path.params)
+    
+    model = params['Dataset']
+    test_size = model['test_size']
+    
     artifacts = config['artifacts']
     artifacts_dir = artifacts['ARTIFACTS_DIR']
     DownloadData =  artifacts['DOWNLOAD_DATA_DIR']
@@ -32,13 +37,13 @@ def main(config_path):
     
     Dataset_path = os.path.join(DownloadData_path ,Dataset_dir)
     dataset = load_dataset('csv', data_files= DownloadData_filename_path,  split='train[:100%]' )#'./artifacts/Data/Data.csv')
-    dataset = dataset.train_test_split(test_size=0.1)
+    dataset = dataset.train_test_split(test_size= test_size)
     # print(dataset)
      
     dataset.save_to_disk(Dataset_path)
     logging.info(f"Saved Dataset to path {Dataset_path} Succefully and Dataset = {dataset}")
     
-    # params = read_yaml(config_path.params)
+    
     # secret = read_yaml(config_path.secret)
     # pass
     

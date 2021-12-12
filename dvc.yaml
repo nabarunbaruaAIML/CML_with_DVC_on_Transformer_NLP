@@ -30,3 +30,15 @@ stages:
       - artifacts/Data/label_num.json
       - artifacts/Data/label2id.json
       - artifacts/base_model
+  stage_03_dataset_split:
+    cmd: python src/stage_03_train_test_split_dataset.py --config=configs/config.yaml --params=params.yaml
+    deps:
+      - src/stage_03_train_test_split_dataset.py
+      - src/utils/all_utils.py
+      - configs/config.yaml
+      - artifacts/Data/Data.csv
+    params:
+      - Dataset.test_size
+    outs:
+      - artifacts/Data/Dataset
+       
