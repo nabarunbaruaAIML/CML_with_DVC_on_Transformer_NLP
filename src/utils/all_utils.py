@@ -89,6 +89,7 @@ def read_data(string,tokenizer,padding,max_length,truncation,stop_words=None):
     json['input_ids'] =inp_ids
     json['attention_mask']= attension_mask
     json['labels']= Label 
+    logging.info(f"Read Completed and Tokenise Succefully")
     return json,id2label,label2id,label_num,Label_set
 
 def save_json(path, data):
