@@ -60,7 +60,8 @@ stages:
       - model.max_length 
       - model.truncation
     outs:
-      - artifacts/Sentence-Classif      
+      - artifacts/Sentence-Classif   
+      - artifacts/Best_Model    
   # stage_03_dataset_split:
   #   cmd: python src/stage_03_train_test_split_dataset.py --config=configs/config.yaml --params=params.yaml
   #   deps:

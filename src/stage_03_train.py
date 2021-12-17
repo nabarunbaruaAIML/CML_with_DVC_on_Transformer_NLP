@@ -37,7 +37,9 @@ def main(config_path):
     
     artifacts = config['artifacts']
     artifacts_dir = artifacts['ARTIFACTS_DIR']
-    artifacts_dir = artifacts['ARTIFACTS_DIR']
+    best = artifacts['Best_Dir']
+    Best_path = os.path.join(artifacts_dir,best) 
+    best_state = Best_path + '/trainer_state.json'
     DownloadData =  artifacts['DOWNLOAD_DATA_DIR']
     DownloadData_path = os.path.join(artifacts_dir,DownloadData)   
     Dataset_dir = artifacts['Dataset_dir']
@@ -119,10 +121,17 @@ def main(config_path):
     # global_step, train_loss, out_metrics = trainer.train()
     global_step, train_loss, out_metrics= trainer.train()
     
+    trainer.save_model(Best_path)
+    trainer.state.save_to_json(best_state)
+    
     logging.info(f"Training Completed with Check Point {global_step} training Loass {train_loss} and Details{out_metrics}")
     evalu = trainer.evaluate()
     
     logging.info(f"Evalution Completed with Evalution Data {evalu}")
+    
+    # ttt = AutoModelForSequenceClassification.from_pretrained('artifacts/Best_Model')
+    
+    # print(ttt)
     # secret = read_yaml(config_path.secret)
     # pass
 
