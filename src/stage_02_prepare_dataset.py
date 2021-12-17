@@ -7,6 +7,7 @@ from src.utils.all_utils import read_yaml,create_directory,read_data,save_json
 from transformers import AutoTokenizer
 from datasets import load_dataset
 import pandas as pd
+from datasets import Dataset
 
 logging_str = "[%(asctime)s: %(levelname)s: %(module)s]: %(message)s"
 log_dir = "logs"
@@ -31,10 +32,11 @@ def main(config_path):
     base_model_path = os.path.join(artifacts_dir,base_model_dir )
     
     DownloadData =  artifacts['DOWNLOAD_DATA_DIR']
+    Dataset_dir = artifacts['Dataset_dir']
     DownloadData_path = os.path.join(artifacts_dir,DownloadData)
     DownloadData_filename =  artifacts['DOWNLOAD_DATA_NAME']
     DownloadData_filename_path = os.path.join(DownloadData_path ,DownloadData_filename)
-    
+    Dataset_path = os.path.join(DownloadData_path ,Dataset_dir)
     ID2LABEL_filename =  artifacts['ID2LABEL']
     ID2LABEL_filename_path = os.path.join(DownloadData_path ,ID2LABEL_filename)
     
@@ -44,9 +46,11 @@ def main(config_path):
     LABEL_NUM_filename =  artifacts['LABEL_NUM']  
     LABEL_NUM_filename_path = os.path.join(DownloadData_path ,LABEL_NUM_filename)
     
-    create_directory([base_model_path,DownloadData_path])
+    create_directory([base_model_path,DownloadData_path,Dataset_path])
     
     params = read_yaml(config_path.params)
+    Data = params['Dataset']
+    test_size = Data['test_size']
     model = params['model']
     model_name = model['base_model']
     use_fast =  model['use_fast']
@@ -63,8 +67,14 @@ def main(config_path):
     save_json(ID2LABEL_filename_path,id2label)
     save_json(LABEL2ID_filename_path,label2id)
     save_json(LABEL_NUM_filename_path,label_num_json)
-    df = pd.DataFrame(json)
-    df.to_csv(DownloadData_filename_path,index= False)
+    
+    dataset = Dataset.from_dict(json)
+    dataset = dataset.train_test_split(test_size=test_size)
+    dataset.save_to_disk(Dataset_path)#('artifacts/Data/Dataset/T1')
+    
+    # df = pd.DataFrame(json)
+    # df.to_csv(DownloadData_filename_path,index= False)
+    
     logging.info(f"Saved transition Data into path {DownloadData_filename_path} Succefully!")
     # dataset = load_dataset('csv', data_files='./artifacts/Data/Data.csv')
     # datasets.load_from_disk  DownloadData_path

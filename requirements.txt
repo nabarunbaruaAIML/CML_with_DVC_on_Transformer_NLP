@@ -117,12 +117,15 @@ tqdm
 dvc
 pandas
 numpy
+torch==1.10.0+cu102
+torchaudio==0.10.0+cu102
+torchvision==0.11.1+cu102
 transformers
 datasets
 PyYAML 
 boto3
 matplotlib
-
+sklearn
 
 
 ## local packages -

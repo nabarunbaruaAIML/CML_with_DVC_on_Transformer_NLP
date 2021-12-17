@@ -69,7 +69,7 @@ def get_input_ids(df,tokeniser,padding,max_length,truncation,stop_words=None):
     attension_mask= []
     df = df.tolist()
     for i in df:
-        output = tokeniser(i, truncation=truncation,padding =padding,max_length=max_length)
+        output = tokeniser(text=i, truncation=truncation,padding =padding,max_length=max_length)#,return_tensors='np' )
         inp_ids.append(output['input_ids'])
         attension_mask.append(output['attention_mask'])
     return inp_ids,attension_mask

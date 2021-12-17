@@ -21,12 +21,13 @@ artifacts:
 # source_download_dirs:
 #   - path_to_data_1
 #   - path_to_data_1
-metric:
-  metric_name: 'matthews_correlation'
+
 
 local_data_dirs:
   - artifacts/data
 
 source_download_dirs: 
   - ../outside_data/Text_Classification
+
+
 

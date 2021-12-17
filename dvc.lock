@@ -4,14 +4,14 @@ stages:
     cmd: python src/stage_01_load_save.py --config=configs/config.yaml
     deps:
     - path: configs/config.yaml
-      md5: 688a3e75e8fa814c595f92a3439c778a
-      size: 816
+      md5: c0dea7e2ba8d0c6d3af70e60d2a5823c
+      size: 774
     - path: src/stage_01_load_save.py
       md5: b6794d9e081ca227b75e0b84e03107e6
       size: 2128
     - path: src/utils/all_utils.py
-      md5: a62828a899b7c1f640022613cc360b66
-      size: 3931
+      md5: f7d13b6787d9184ee3d5e1e289db302e
+      size: 3959
     outs:
     - path: artifacts/Data/atis_intents.csv
       md5: 9f19d740a9876212b24bc0dd89b508a1
@@ -23,31 +23,33 @@ stages:
       md5: d7358f4c0510c4e3263adbecf6227cf6
       size: 381136
   stage_02_prepare_data:
-    cmd: python src/stage_02_prepare_data.py --config=configs/config.yaml --params=params.yaml
+    cmd: python src/stage_02_prepare_dataset.py --config=configs/config.yaml --params=params.yaml
     deps:
     - path: artifacts/Data/atis_intents.csv
       md5: 9f19d740a9876212b24bc0dd89b508a1
       size: 391936
     - path: configs/config.yaml
-      md5: 688a3e75e8fa814c595f92a3439c778a
-      size: 816
-    - path: src/stage_02_prepare_data.py
-      md5: bc3a892fd762d607ba6deccd7176d487
-      size: 3723
+      md5: c0dea7e2ba8d0c6d3af70e60d2a5823c
+      size: 774
+    - path: src/stage_02_prepare_dataset.py
+      md5: 739fea4a85b4c54a97edc61a1e27974f
+      size: 4126
     - path: src/utils/all_utils.py
-      md5: a62828a899b7c1f640022613cc360b66
-      size: 3931
+      md5: f7d13b6787d9184ee3d5e1e289db302e
+      size: 3959
     params:
       params.yaml:
+        Dataset.test_size: 0.1
         model.base_model: albert-base-v2
         model.max_length: 128
         model.padding: max_length
         model.truncation: true
         model.use_fast: true
     outs:
-    - path: artifacts/Data/Data.csv
-      md5: c63b12fede80cb3caabe3e53703f1938
-      size: 3986929
+    - path: artifacts/Data/Dataset
+      md5: 5f22312a7dae54c690b497d71c055ab6.dir
+      size: 3270915
+      nfiles: 7
     - path: artifacts/Data/id2label.json
       md5: 4eb8692137a88c2bfb00f3d41e3f59b9
       size: 707
@@ -85,3 +87,47 @@ stages:
       md5: 9878c49cd151fe21328d22518eb2bc18.dir
       size: 4023371
       nfiles: 7
+  stage_03_Train:
+    cmd: python src/stage_03_train.py --config=configs/config.yaml --params=params.yaml
+    deps:
+    - path: artifacts/Data/Dataset
+      md5: 5f22312a7dae54c690b497d71c055ab6.dir
+      size: 3270915
+      nfiles: 7
+    - path: artifacts/Data/label_num.json
+      md5: 720ce1dfb128c5878d779d4ad13c3073
+      size: 31
+    - path: configs/config.yaml
+      md5: c0dea7e2ba8d0c6d3af70e60d2a5823c
+      size: 774
+    - path: src/stage_03_train.py
+      md5: 75df689b5a1fb3ef7b2b9d89c690da06
+      size: 6285
+    - path: src/utils/all_utils.py
+      md5: f7d13b6787d9184ee3d5e1e289db302e
+      size: 3959
+    params:
+      params.yaml:
+        TrainingArgument.Early_Stopping_patience: 2
+        TrainingArgument.Evaluation_Strategy: epoch
+        TrainingArgument.Learning_Rate: 2e-05
+        TrainingArgument.Load_Best_Model_At_End: true
+        TrainingArgument.Num_Train_Epochs: 1
+        TrainingArgument.Output_Dir: artifacts/Sentence-Classif
+        TrainingArgument.Per_Device_Eval_Batch_Size: 16
+        TrainingArgument.Per_Device_Train_Batch_Size: 16
+        TrainingArgument.Save_Strategy: epoch
+        TrainingArgument.Save_Total_Limit: 5
+        TrainingArgument.Warmup_Ratio: 0.1
+        TrainingArgument.Weight_Decay: 0.01
+        TrainingArgument.metric_name: matthews_correlation
+        model.base_model: albert-base-v2
+        model.max_length: 128
+        model.padding: max_length
+        model.truncation: true
+        model.use_fast: true
+    outs:
+    - path: artifacts/Sentence-Classif
+      md5: 16e6ae67adf12b0bf448e3018da153cb.dir
+      size: 141768362
+      nfiles: 10

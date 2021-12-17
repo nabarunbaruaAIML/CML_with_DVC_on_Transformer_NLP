@@ -12,33 +12,64 @@ stages:
       - artifacts/Data/atis_intents.csv
  
   stage_02_prepare_data:
-    cmd: python src/stage_02_prepare_data.py --config=configs/config.yaml --params=params.yaml
+    cmd: python src/stage_02_prepare_dataset.py --config=configs/config.yaml --params=params.yaml
     deps:
-      - src/stage_02_prepare_data.py
+      - src/stage_02_prepare_dataset.py
       - src/utils/all_utils.py
       - configs/config.yaml
       - artifacts/Data/atis_intents.csv
     params:
+      - Dataset.test_size
       - model.base_model
       - model.use_fast
       - model.padding 
       - model.max_length 
       - model.truncation
     outs:
-      - artifacts/Data/Data.csv
+      - artifacts/Data/Dataset
       - artifacts/Data/id2label.json
       - artifacts/Data/label_num.json
       - artifacts/Data/label2id.json
       - artifacts/base_model
-  stage_03_dataset_split:
-    cmd: python src/stage_03_train_test_split_dataset.py --config=configs/config.yaml --params=params.yaml
+
+  stage_03_Train:
+    cmd: python src/stage_03_train.py --config=configs/config.yaml --params=params.yaml
     deps:
-      - src/stage_03_train_test_split_dataset.py
+      - src/stage_03_train.py
       - src/utils/all_utils.py
       - configs/config.yaml
-      - artifacts/Data/Data.csv
-    params:
-      - Dataset.test_size
-    outs:
       - artifacts/Data/Dataset
+      - artifacts/Data/label_num.json
+    params:
+      - TrainingArgument.Output_Dir
+      - TrainingArgument.Evaluation_Strategy
+      - TrainingArgument.Save_Strategy
+      - TrainingArgument.Learning_Rate
+      - TrainingArgument.Per_Device_Train_Batch_Size
+      - TrainingArgument.Per_Device_Eval_Batch_Size
+      - TrainingArgument.Save_Total_Limit
+      - TrainingArgument.Num_Train_Epochs
+      - TrainingArgument.Weight_Decay
+      - TrainingArgument.Load_Best_Model_At_End
+      - TrainingArgument.Warmup_Ratio
+      - TrainingArgument.metric_name
+      - TrainingArgument.Early_Stopping_patience
+      - model.base_model
+      - model.use_fast
+      - model.padding 
+      - model.max_length 
+      - model.truncation
+    outs:
+      - artifacts/Sentence-Classif      
+  # stage_03_dataset_split:
+  #   cmd: python src/stage_03_train_test_split_dataset.py --config=configs/config.yaml --params=params.yaml
+  #   deps:
+  #     - src/stage_03_train_test_split_dataset.py
+  #     - src/utils/all_utils.py
+  #     - configs/config.yaml
+  #     - artifacts/Data/Data.csv
+  #   params:
+  #     - Dataset.test_size
+  #   outs:
+  #     - artifacts/Data/Dataset
        
