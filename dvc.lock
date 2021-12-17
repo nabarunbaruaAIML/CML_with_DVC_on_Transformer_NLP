@@ -4,8 +4,8 @@ stages:
     cmd: python src/stage_01_load_save.py --config=configs/config.yaml
     deps:
     - path: configs/config.yaml
-      md5: c0dea7e2ba8d0c6d3af70e60d2a5823c
-      size: 774
+      md5: 4aba897c2256bc9dd7a8b13f7e4222dd
+      size: 780
     - path: src/stage_01_load_save.py
       md5: b6794d9e081ca227b75e0b84e03107e6
       size: 2128
@@ -29,8 +29,8 @@ stages:
       md5: 9f19d740a9876212b24bc0dd89b508a1
       size: 391936
     - path: configs/config.yaml
-      md5: c0dea7e2ba8d0c6d3af70e60d2a5823c
-      size: 774
+      md5: 4aba897c2256bc9dd7a8b13f7e4222dd
+      size: 780
     - path: src/stage_02_prepare_dataset.py
       md5: 739fea4a85b4c54a97edc61a1e27974f
       size: 4126
@@ -98,11 +98,11 @@ stages:
       md5: 720ce1dfb128c5878d779d4ad13c3073
       size: 31
     - path: configs/config.yaml
-      md5: c0dea7e2ba8d0c6d3af70e60d2a5823c
-      size: 774
+      md5: 4aba897c2256bc9dd7a8b13f7e4222dd
+      size: 780
     - path: src/stage_03_train.py
-      md5: 75df689b5a1fb3ef7b2b9d89c690da06
-      size: 6285
+      md5: ad3ffa910ac6c0a564e98a2dac1d9545
+      size: 6393
     - path: src/utils/all_utils.py
       md5: f7d13b6787d9184ee3d5e1e289db302e
       size: 3959
@@ -128,6 +128,6 @@ stages:
         model.use_fast: true
     outs:
     - path: artifacts/Sentence-Classif
-      md5: 16e6ae67adf12b0bf448e3018da153cb.dir
-      size: 141768362
+      md5: b62f5bd9c3c739841463da08de963e4d.dir
+      size: 141768361
       nfiles: 10

@@ -120,6 +120,9 @@ def main(config_path):
     global_step, train_loss, out_metrics= trainer.train()
     
     logging.info(f"Training Completed with Check Point {global_step} training Loass {train_loss} and Details{out_metrics}")
+    evalu = trainer.evaluate()
+    
+    logging.info(f"Evalution Completed with Evalution Data {evalu}")
     # secret = read_yaml(config_path.secret)
     # pass
 
