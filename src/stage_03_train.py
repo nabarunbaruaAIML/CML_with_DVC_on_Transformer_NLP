@@ -23,9 +23,6 @@ logging.basicConfig(
 STAGE = 'Stage 04'
 def main(config_path):
     
-    # print(dataset)
-    
-    # print(model)
     config = read_yaml(config_path.config)
     params = read_yaml(config_path.params)
     model = params['model']

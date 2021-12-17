@@ -71,11 +71,11 @@ def main(config_path):
     dataset = Dataset.from_dict(json)
     dataset = dataset.train_test_split(test_size=test_size)
     dataset.save_to_disk(Dataset_path)#('artifacts/Data/Dataset/T1')
-    
+    logging.info(f"Saved transition Dataset into path {Dataset_path} Succefully!")
     # df = pd.DataFrame(json)
     # df.to_csv(DownloadData_filename_path,index= False)
     
-    logging.info(f"Saved transition Data into path {DownloadData_filename_path} Succefully!")
+    
     # dataset = load_dataset('csv', data_files='./artifacts/Data/Data.csv')
     # datasets.load_from_disk  DownloadData_path
     # dataset.save_to_disk  DownloadData_path
