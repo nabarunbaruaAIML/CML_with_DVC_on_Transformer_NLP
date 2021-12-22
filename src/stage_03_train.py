@@ -78,6 +78,7 @@ def main(config_path):
     Load_Best_Model_At_End = TrainingArgument['Load_Best_Model_At_End']
     Warmup_Ratio = TrainingArgument['Warmup_Ratio']
     Early_Stopping_patience = TrainingArgument['Early_Stopping_patience']
+    Cuda = TrainingArgument['Cuda']
     
     metric_loaded = load_metric(metric_name)
     
@@ -102,7 +103,7 @@ def main(config_path):
                                 load_best_model_at_end= Load_Best_Model_At_End,
                                 warmup_ratio = Warmup_Ratio,
                                 metric_for_best_model=metric_name,
-                                # no_cuda = True
+                                no_cuda = Cuda
                             ) 
     
     trainer = Trainer(
