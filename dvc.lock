@@ -12,6 +12,9 @@ stages:
     - path: src/utils/all_utils.py
       md5: f7d13b6787d9184ee3d5e1e289db302e
       size: 3959
+    params:
+      params.yaml:
+        TrainingArgument.run_name: albert-base-v2_Run_DVC_1
     outs:
     - path: artifacts/Data/atis_intents.csv
       md5: 9f19d740a9876212b24bc0dd89b508a1
@@ -32,14 +35,15 @@ stages:
       md5: 55d9475b10dca3f11667506c0f9e1379
       size: 804
     - path: src/stage_02_prepare_dataset.py
-      md5: 739fea4a85b4c54a97edc61a1e27974f
-      size: 4126
+      md5: e31c4fb9a21ca517f1139c9c05504217
+      size: 4115
     - path: src/utils/all_utils.py
       md5: f7d13b6787d9184ee3d5e1e289db302e
       size: 3959
     params:
       params.yaml:
         Dataset.test_size: 0.1
+        TrainingArgument.run_name: albert-base-v2_Run_DVC_1
         model.base_model: albert-base-v2
         model.max_length: 128
         model.padding: max_length
@@ -101,18 +105,19 @@ stages:
       md5: 55d9475b10dca3f11667506c0f9e1379
       size: 804
     - path: src/stage_03_train.py
-      md5: 087fe74bdec020315e66b63a6c58a331
-      size: 6685
+      md5: 698007c44afed8801bdb3526c67b4530
+      size: 7047
     - path: src/utils/all_utils.py
       md5: f7d13b6787d9184ee3d5e1e289db302e
       size: 3959
     params:
       params.yaml:
+        TrainingArgument.Cuda: false
         TrainingArgument.Early_Stopping_patience: 2
         TrainingArgument.Evaluation_Strategy: epoch
         TrainingArgument.Learning_Rate: 2e-05
         TrainingArgument.Load_Best_Model_At_End: true
-        TrainingArgument.Num_Train_Epochs: 1
+        TrainingArgument.Num_Train_Epochs: 3
         TrainingArgument.Output_Dir: artifacts/Sentence-Classif
         TrainingArgument.Per_Device_Eval_Batch_Size: 16
         TrainingArgument.Per_Device_Train_Batch_Size: 16
@@ -121,6 +126,8 @@ stages:
         TrainingArgument.Warmup_Ratio: 0.1
         TrainingArgument.Weight_Decay: 0.01
         TrainingArgument.metric_name: matthews_correlation
+        TrainingArgument.report_to: wandb
+        TrainingArgument.run_name: albert-base-v2_Run_DVC_1
         model.base_model: albert-base-v2
         model.max_length: 128
         model.padding: max_length
@@ -128,10 +135,14 @@ stages:
         model.use_fast: true
     outs:
     - path: artifacts/Best_Model
-      md5: 2354efcbc74fd7c9dd194745e94b10f5.dir
-      size: 48134281
+      md5: d90708b1d41e695efaeb504fc07c1f58.dir
+      size: 48135004
       nfiles: 7
     - path: artifacts/Sentence-Classif
-      md5: 0e4031d6ecdc48a23348d090a2947150.dir
-      size: 141768359
-      nfiles: 10
+      md5: 8453bc30216dade5a9e76b376b8172df.dir
+      size: 425306322
+      nfiles: 30
+    - path: wandb
+      md5: 4f1161850886b3e13e660e3769d78d69.dir
+      size: 515163
+      nfiles: 9

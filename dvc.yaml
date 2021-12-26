@@ -6,6 +6,8 @@ stages:
       - src/stage_01_load_save.py
       - src/utils/all_utils.py
       - configs/config.yaml
+    params:
+      - TrainingArgument.run_name
     outs:
       - artifacts/Data/atis_intents_test.csv
       - artifacts/Data/atis_intents_train.csv
@@ -25,6 +27,7 @@ stages:
       - model.padding 
       - model.max_length 
       - model.truncation
+      - TrainingArgument.run_name
     outs:
       - artifacts/Data/Dataset
       - artifacts/Data/id2label.json
@@ -54,6 +57,9 @@ stages:
       - TrainingArgument.Warmup_Ratio
       - TrainingArgument.metric_name
       - TrainingArgument.Early_Stopping_patience
+      - TrainingArgument.Cuda
+      - TrainingArgument.report_to
+      - TrainingArgument.run_name
       - model.base_model
       - model.use_fast
       - model.padding 

@@ -28,4 +28,4 @@ TrainingArgument:
   Early_Stopping_patience: 2
   Cuda: False
   report_to: wandb  # enable logging to W&B
-  run_name: albert-base-v2_Run_DVC
+  run_name: albert-base-v2_Run_DVC_1
