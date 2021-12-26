@@ -126,7 +126,7 @@ PyYAML
 boto3
 matplotlib
 sklearn
-
+python-dotenv
 
 ## local packages -
 -e . # << uncomment this to install from setup.py
