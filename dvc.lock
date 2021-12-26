@@ -105,8 +105,8 @@ stages:
       md5: 55d9475b10dca3f11667506c0f9e1379
       size: 804
     - path: src/stage_03_train.py
-      md5: 486335fed5d5f0f172ad80a59bf37127
-      size: 7444
+      md5: b4cdf7a9212fb2abeddf8a5b399f2405
+      size: 7548
     - path: src/utils/all_utils.py
       md5: a7c1a23fc2f1bbd5db653bf479dc4bc7
       size: 4180
@@ -123,6 +123,7 @@ stages:
         TrainingArgument.Per_Device_Train_Batch_Size: 16
         TrainingArgument.Save_Strategy: epoch
         TrainingArgument.Save_Total_Limit: 5
+        TrainingArgument.WANDB_PROJECT: Text_Classification1
         TrainingArgument.Warmup_Ratio: 0.1
         TrainingArgument.Weight_Decay: 0.01
         TrainingArgument.metric_name: matthews_correlation
@@ -135,14 +136,14 @@ stages:
         model.use_fast: true
     outs:
     - path: artifacts/Best_Model
-      md5: 7dac0b7d6c2c4f7b9c0bbfa900d67774.dir
-      size: 48135436
+      md5: 6ba4c15e96263a0fc13c83feb6fd3877.dir
+      size: 48135439
       nfiles: 7
     - path: artifacts/Sentence-Classif
-      md5: 33a30a478101ba6d4447af942a397583.dir
+      md5: 40ac28a52b146d3588f9a1e8462eb2be.dir
       size: 425307628
       nfiles: 30
     - path: wandb
-      md5: 4cf2353cef75229a06f66dbf59a5accd.dir
-      size: 519554
+      md5: 6ce9c3190087c5e120b55d7abb663dc6.dir
+      size: 531648
       nfiles: 9

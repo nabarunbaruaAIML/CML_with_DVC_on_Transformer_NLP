@@ -60,6 +60,7 @@ stages:
       - TrainingArgument.Cuda
       - TrainingArgument.report_to
       - TrainingArgument.run_name
+      - TrainingArgument.WANDB_PROJECT
       - model.base_model
       - model.use_fast
       - model.padding 

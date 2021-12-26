@@ -98,6 +98,8 @@ def main(config_path):
     Cuda = TrainingArgument['Cuda']
     report_to = TrainingArgument['report_to']
     run_name = TrainingArgument['run_name']
+    WANDB_PROJECT = TrainingArgument['WANDB_PROJECT']
+    os.environ['WANDB_PROJECT'] = WANDB_PROJECT
     
     
     metric_loaded = load_metric(metric_name)
