@@ -127,6 +127,7 @@ boto3
 matplotlib
 sklearn
 python-dotenv
+wandb
 
 ## local packages -
 -e . # << uncomment this to install from setup.py

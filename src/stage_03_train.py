@@ -9,6 +9,11 @@ from datasets import load_from_disk,load_metric
 from src.utils.all_utils import read_yaml
 from transformers import AutoTokenizer,DataCollatorWithPadding, EarlyStoppingCallback
 from transformers import AutoModelForSequenceClassification, TrainingArguments, Trainer
+from dotenv import load_dotenv
+import wandb
+
+load_dotenv()
+
 
 logging_str = "[%(asctime)s: %(levelname)s: %(module)s]: %(message)s"
 log_dir = "logs"
@@ -25,6 +30,9 @@ def main(config_path):
     
     config = read_yaml(config_path.config)
     params = read_yaml(config_path.params)
+    Wandb_API= os.getenv('WANDB_API_KEY')
+    
+    wandb.login(key=Wandb_API)
     model = params['model']
     model_name = model['base_model']
     use_fast =  model['use_fast']
@@ -79,6 +87,9 @@ def main(config_path):
     Warmup_Ratio = TrainingArgument['Warmup_Ratio']
     Early_Stopping_patience = TrainingArgument['Early_Stopping_patience']
     Cuda = TrainingArgument['Cuda']
+    report_to = TrainingArgument['report_to']
+    run_name = TrainingArgument['run_name']
+    
     
     metric_loaded = load_metric(metric_name)
     
@@ -103,7 +114,9 @@ def main(config_path):
                                 load_best_model_at_end= Load_Best_Model_At_End,
                                 warmup_ratio = Warmup_Ratio,
                                 metric_for_best_model=metric_name,
-                                no_cuda = Cuda
+                                no_cuda = Cuda,
+                                report_to=report_to,  # enable logging to W&B
+                                run_name=run_name
                             ) 
     
     trainer = Trainer(

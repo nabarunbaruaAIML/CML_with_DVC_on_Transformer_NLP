@@ -61,7 +61,8 @@ stages:
       - model.truncation
     outs:
       - artifacts/Sentence-Classif   
-      - artifacts/Best_Model    
+      - artifacts/Best_Model  
+      - wandb  
   # stage_03_dataset_split:
   #   cmd: python src/stage_03_train_test_split_dataset.py --config=configs/config.yaml --params=params.yaml
   #   deps:

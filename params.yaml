@@ -20,10 +20,12 @@ TrainingArgument:
   Per_Device_Train_Batch_Size: 16
   Per_Device_Eval_Batch_Size: 16
   Save_Total_Limit: 5
-  Num_Train_Epochs: 1
+  Num_Train_Epochs: 3
   Weight_Decay: 0.01
   Load_Best_Model_At_End: True
   Warmup_Ratio: 0.1
   metric_name: matthews_correlation
   Early_Stopping_patience: 2
-  Cuda: True
+  Cuda: False
+  report_to: wandb  # enable logging to W&B
+  run_name: albert-base-v2_Run_DVC
