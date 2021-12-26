@@ -6,8 +6,8 @@ import logging
 import json
 import numpy as np
 from datasets import load_from_disk,load_metric
-from src.utils.all_utils import read_yaml
-from transformers import AutoTokenizer,DataCollatorWithPadding, EarlyStoppingCallback
+from src.utils.all_utils import read_yaml,read_json
+from transformers import AutoTokenizer,DataCollatorWithPadding, EarlyStoppingCallback,AutoConfig
 from transformers import AutoModelForSequenceClassification, TrainingArguments, Trainer
 from dotenv import load_dotenv
 import wandb
@@ -47,6 +47,11 @@ def main(config_path):
     best_state = Best_path + '/trainer_state.json'
     DownloadData =  artifacts['DOWNLOAD_DATA_DIR']
     DownloadData_path = os.path.join(artifacts_dir,DownloadData)   
+    L2ID = artifacts['LABEL2ID']
+    ID2L = artifacts['ID2LABEL']
+    L2ID_path = os.path.join(DownloadData_path,L2ID)
+    ID2L_path = os.path.join(DownloadData_path,ID2L)
+           
     Dataset_dir = artifacts['Dataset_dir']
     Dataset_path = os.path.join(DownloadData_path ,Dataset_dir)
     base_model_dir = artifacts['BASE_MODEL_DIR']
@@ -67,7 +72,11 @@ def main(config_path):
     tokenizer = AutoTokenizer.from_pretrained(model_name ,cache_dir =  base_model_path, use_fast=use_fast)
     logging.info(f"Loaded Tokenizer of Model {model_name} Succefully !")
     
-    Transformer_Model = AutoModelForSequenceClassification.from_pretrained(model_name ,cache_dir =  base_model_path, num_labels=Jdata['Number_of_Label'])
+    Label2ID = read_json(L2ID_path)
+    ID2Label = read_json(ID2L_path)
+    config = AutoConfig.from_pretrained(model_name, label2id=Label2ID, id2label=ID2Label,  num_labels=Jdata['Number_of_Label'])
+    
+    Transformer_Model = AutoModelForSequenceClassification.from_pretrained(model_name ,cache_dir =  base_model_path, config=config)
     logging.info(f"Loaded Model {model_name} Succefully !")
     
     data_collator = DataCollatorWithPadding(tokenizer,padding = padding, max_length= max_length)

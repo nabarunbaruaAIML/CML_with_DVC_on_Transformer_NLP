@@ -9,6 +9,13 @@ import logging
 import shutil
 import time
 
+
+def read_json(path_to_json: str) -> dict:
+    with open(path_to_json) as json_file:
+        data = json.load(json_file)
+        logging.info(f"JSON file: {path_to_json} loaded successfully")
+    return data
+     
 def read_yaml(path_to_yaml: str) -> dict:
     with open(path_to_yaml) as yaml_file:
         content = yaml.safe_load(yaml_file)

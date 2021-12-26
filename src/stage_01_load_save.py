@@ -20,7 +20,7 @@ logging.basicConfig(
 STAGE = 'Stage 01'
 def main(config_path):
     config = read_yaml(config_path.config)
-    # params = read_yaml(config_path.params)
+    params = read_yaml(config_path.params)
     # secret = read_yaml(config_path.secret)
     artifacts = config['artifacts']
     source_download_dirs= config["source_download_dirs"]
@@ -39,7 +39,7 @@ def main(config_path):
 if __name__ == '__main__':
     args = argparse.ArgumentParser()
     args.add_argument("--config", "-c", default="configs/config.yaml")
-    # args.add_argument("--params", "-p", default="params.yaml")
+    args.add_argument("--params", "-p", default="params.yaml")
     # args.add_argument("--secret","-s", default="configs/secrets.yaml")
     parsed_args = args.parse_args()
 
