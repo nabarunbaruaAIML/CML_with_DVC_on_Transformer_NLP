@@ -8,6 +8,7 @@ import json
 import logging
 import shutil
 import time
+import boto3
 
 
 def read_json(path_to_json: str) -> dict:
@@ -65,6 +66,18 @@ def copy_file_csv(source_download_dir, local_data_dir):
     #     src = os.path.join(source_download_dir, file)
     #     dest = os.path.join(local_data_dir, file)
     #     shutil.copy(src, dest)
+def copy_file_from_S3(s3,S3_location, local_data_dir):
+    obj = s3.Bucket(S3_location)
+    list_of_files =[ i.key for i in obj.objects.all() ] 
+    N = len(list_of_files)
+    
+    for file in list_of_files:
+        
+        # src = os.path.join(source_download_dir, file)
+        dest = os.path.join(local_data_dir, file)
+        # shutil.copy(src, dest)
+        s3.Bucket(S3_location).download_file(Key=file, Filename=dest)
+        logging.info(f"Copying File from S3 to {dest} Completed! Succefully")
     
 def get_timestamp(name):
     timestamp = time.asctime().replace(" ", "_").replace(":", "_")

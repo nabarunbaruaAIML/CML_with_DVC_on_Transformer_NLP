@@ -3,8 +3,11 @@ import os
 import shutil
 from tqdm import tqdm
 import logging
-from src.utils.all_utils import read_yaml, create_directory,copy_file_csv
+from src.utils.all_utils import read_yaml, create_directory,copy_file_csv,copy_file_from_S3
+import boto3
+from dotenv import load_dotenv
 
+load_dotenv()
 
 # logging_str = "[%(asctime)s: %(levelname)s: %(module)s]: %(message)s"
 log_dir = "logs"
@@ -23,16 +26,26 @@ def main(config_path):
     params = read_yaml(config_path.params)
     # secret = read_yaml(config_path.secret)
     artifacts = config['artifacts']
-    source_download_dirs= config["source_download_dirs"]
+    source_download_dirs= config["source_S3"]
     artifacts_dir = artifacts['ARTIFACTS_DIR']
     local_data_dirs = config["local_data_dirs"] 
     DownloadData =  artifacts['DOWNLOAD_DATA_DIR']
     DownloadData_path = os.path.join(artifacts_dir,DownloadData)# This can be replaced by local_data_dirs variable. Just keeping it for understanding perpose.
     create_directory([artifacts_dir,DownloadData_path])
+    AWS_ACCESS_KEY_ID= os.getenv('AWS_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY= os.getenv('AWS_SECRET_ACCESS_KEY')
+    AWS_DEFAULT_REGION= os.getenv('AWS_DEFAULT_REGION')
+    s3 = boto3.resource(
+                            service_name='s3',
+                            region_name=AWS_DEFAULT_REGION,
+                            aws_access_key_id= AWS_ACCESS_KEY_ID,
+                            aws_secret_access_key=AWS_SECRET_ACCESS_KEY
+                        )
     for source_download_dir, local_data_dir in tqdm(zip(source_download_dirs, local_data_dirs), total=1, desc= "list of folders", colour="red"):
         create_directory([local_data_dir])
-        logging.info(f"Copying Files from directory {source_download_dir} to {local_data_dir} Started")
-        copy_file_csv(source_download_dir, local_data_dir)
+        logging.info(f"Copying Files from S3 to {local_data_dir} Started")
+        # copy_file_csv(source_download_dir, local_data_dir)
+        copy_file_from_S3(s3,source_download_dir, local_data_dir)
     logging.info(f"Copying Files Completed Successfully")
     
 
