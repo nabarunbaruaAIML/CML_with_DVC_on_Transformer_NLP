@@ -1,1 +1,58 @@
 # add ci-cd steps here
+name: Training-Transformer-Model
+on: 
+  push: 
+    branches:
+      - main
+jobs:
+  deploy-runner:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: iterative/setup-cml@v1
+      - name: Deploy runner on EC2
+        shell: bash
+        env:
+          repo_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          cml-runner \
+          --cloud aws \
+          --cloud-region us-east \
+          --cloud-type=p3.2xlarge \
+          --cloud-hdd-size 110 \
+          --labels=cml-runner
+  train-model:
+    needs: deploy-runner
+    runs-on: [self-hosted,cml-runner]
+    timeout-minutes: 4320 # 72h
+    container: 
+      image: docker://iterativeai/cml:0-dvc2-base1-gpu #docker://iterativeai/cml
+      options: --gpus all
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v2
+      with:
+        python-version: '3.7.11'
+    - name: cml
+      env:
+        repo_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_DEFAULT_REGION: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        WANDB_API_KEY: ${{ secrets.WANDB_API_KEY}}
+        WANDB_LOG_MODEL: ${{ secrets.WANDB_LOG_MODEL }} 
+        WANDB_WATCH: ${{ secrets.WANDB_WATCH }}
+      run: |
+        apt-get update -y
+        pip install -r requirements.txt
+        
+        # DVC stuff
+        git fetch --prune
+        dvc repro
+       
+        echo "## Training Logs" >> report.md
+        cat logs/running_logs.log >> report.md
+        
+        cml-send-comment report.md 
