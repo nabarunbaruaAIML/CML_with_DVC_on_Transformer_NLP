@@ -1,118 +1,118 @@
 ### dependency
 
-aiohttp==3.8.0
-aiohttp-retry==2.4.6
-aiosignal==1.2.0
-appdirs==1.4.4
-async-timeout==4.0.1
-asynctest==0.13.0
-atpublic==2.3
-attrs==21.2.0
-boto3==1.20.5
-botocore==1.23.5
-cached-property==1.5.2
-certifi==2021.10.8
-cffi==1.15.0
-charset-normalizer==2.0.7
-click==8.0.3
-colorama==0.4.4
-commonmark==0.9.1
-configobj==5.0.6
-cycler==0.11.0
-datasets==1.15.1
-dictdiffer==0.9.0
-dill==0.3.4
-diskcache==5.2.1
-distro==1.6.0
-dpath==2.0.5
-dulwich==0.20.26
-# dvc==2.8.3
-filelock==3.3.2
-flatten-dict==0.4.2
-flufl.lock==6.0
-frozenlist==1.2.0
-fsspec==2021.11.0
-ftfy==6.0.3
-funcy==1.16
-future==0.18.2
-gitdb==4.0.9
-GitPython==3.1.24
-grandalf==0.6
-huggingface-hub==0.1.2
-idna==3.3
-importlib-metadata==4.8.2
-importlib-resources==5.4.0
-jaraco.classes==3.2.1
-jaraco.collections==3.4.0
-jaraco.functools==3.4.0
-jaraco.structures==2.1.0
-jaraco.text==3.6.0
-jaraco.ui==2.3.0
-jaraco.windows==5.7.0
-jmespath==0.10.0
-joblib==1.1.0
-jupyter-tabnine==1.1.0
-kiwisolver==1.3.2
-mailchecker==4.0.16
-matplotlib==3.4.3
-more-itertools==8.11.0
-multidict==5.2.0
-multiprocess==0.70.12.2
-nanotime==0.5.2
-networkx==2.6.3
-numpy==1.21.4
-packaging==21.2
-pandas==1.3.4
-path==16.2.0
-pathspec==0.9.0
-phonenumbers==8.12.37
-Pillow==8.4.0
-ply==3.11
-psutil==5.8.0
-pyarrow==6.0.0
-pyasn1==0.4.8
-pycparser==2.21
-pydot==1.4.2
-pygit2==1.7.0
-Pygments==2.10.0
-pygtrie==2.4.2
-pyparsing==2.4.7
-python-benedict==0.24.3
-python-dateutil==2.8.2
-python-fsutil==0.5.0
-python-slugify==5.0.2
-pytz==2021.3
-PyYAML==6.0
-regex==2021.11.10
-requests==2.26.0
-rich==10.13.0
-ruamel.yaml==0.17.17
-ruamel.yaml.clib==0.2.6
-s3transfer==0.5.0
-sacremoses==0.0.46
-shortuuid==1.0.8
-shtab==1.4.2
-six==1.16.0
-smmap==5.0.0
-tabulate==0.8.9
-text-unidecode==1.3
-tokenizers==0.10.3
-toml==0.10.2
-torch==1.10.0+cu102
-torchaudio==0.10.0+cu102
-torchvision==0.11.1+cu102
-tqdm==4.62.3
-transformers==4.12.3
-typing-extensions==3.10.0.2
-urllib3==1.26.7
-voluptuous==0.12.2
-wcwidth==0.2.5
-wincertstore==0.2
-xmltodict==0.12.0
-xxhash==2.0.2
-yarl==1.7.2
-zc.lockfile==2.0
-zipp==3.6.0
+# aiohttp==3.8.0
+# aiohttp-retry==2.4.6
+# aiosignal==1.2.0
+# appdirs==1.4.4
+# async-timeout==4.0.1
+# asynctest==0.13.0
+# atpublic==2.3
+# attrs==21.2.0
+# boto3==1.20.5
+# botocore==1.23.5
+# cached-property==1.5.2
+# certifi==2021.10.8
+# cffi==1.15.0
+# charset-normalizer==2.0.7
+# click==8.0.3
+# colorama==0.4.4
+# commonmark==0.9.1
+# configobj==5.0.6
+# cycler==0.11.0
+# datasets==1.15.1
+# dictdiffer==0.9.0
+# dill==0.3.4
+# diskcache==5.2.1
+# distro==1.6.0
+# dpath==2.0.5
+# dulwich==0.20.26
+# # dvc==2.8.3
+# filelock==3.3.2
+# flatten-dict==0.4.2
+# flufl.lock==6.0
+# frozenlist==1.2.0
+# fsspec==2021.11.0
+# ftfy==6.0.3
+# funcy==1.16
+# future==0.18.2
+# gitdb==4.0.9
+# GitPython==3.1.24
+# grandalf==0.6
+# huggingface-hub==0.1.2
+# idna==3.3
+# importlib-metadata==4.8.2
+# importlib-resources==5.4.0
+# jaraco.classes==3.2.1
+# jaraco.collections==3.4.0
+# jaraco.functools==3.4.0
+# jaraco.structures==2.1.0
+# jaraco.text==3.6.0
+# jaraco.ui==2.3.0
+# jaraco.windows==5.7.0
+# jmespath==0.10.0
+# joblib==1.1.0
+# jupyter-tabnine==1.1.0
+# kiwisolver==1.3.2
+# mailchecker==4.0.16
+# matplotlib==3.4.3
+# more-itertools==8.11.0
+# multidict==5.2.0
+# multiprocess==0.70.12.2
+# nanotime==0.5.2
+# networkx==2.6.3
+# numpy==1.21.4
+# packaging==21.2
+# pandas==1.3.4
+# path==16.2.0
+# pathspec==0.9.0
+# phonenumbers==8.12.37
+# Pillow==8.4.0
+# ply==3.11
+# psutil==5.8.0
+# pyarrow==6.0.0
+# pyasn1==0.4.8
+# pycparser==2.21
+# pydot==1.4.2
+# pygit2==1.7.0
+# Pygments==2.10.0
+# pygtrie==2.4.2
+# pyparsing==2.4.7
+# python-benedict==0.24.3
+# python-dateutil==2.8.2
+# python-fsutil==0.5.0
+# python-slugify==5.0.2
+# pytz==2021.3
+# PyYAML==6.0
+# regex==2021.11.10
+# requests==2.26.0
+# rich==10.13.0
+# ruamel.yaml==0.17.17
+# ruamel.yaml.clib==0.2.6
+# s3transfer==0.5.0
+# sacremoses==0.0.46
+# shortuuid==1.0.8
+# shtab==1.4.2
+# six==1.16.0
+# smmap==5.0.0
+# tabulate==0.8.9
+# text-unidecode==1.3
+# tokenizers==0.10.3
+# toml==0.10.2
+# torch==1.10.0+cu102
+# torchaudio==0.10.0+cu102
+# torchvision==0.11.1+cu102
+# tqdm==4.62.3
+# transformers==4.12.3
+# typing-extensions==3.10.0.2
+# urllib3==1.26.7
+# voluptuous==0.12.2
+# wcwidth==0.2.5
+# wincertstore==0.2
+# xmltodict==0.12.0
+# xxhash==2.0.2
+# yarl==1.7.2
+# zc.lockfile==2.0
+# zipp==3.6.0
 tqdm
 dvc
 pandas
