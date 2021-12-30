@@ -55,3 +55,4 @@ jobs:
         cat logs/running_logs.log >> report.md
         
         cml-send-comment report.md 
+
