@@ -45,6 +45,7 @@ jobs:
         WANDB_WATCH: ${{ secrets.WANDB_WATCH }}
       run: |
         apt-get update -y
+        apt install python3.7
         pip install --upgrade pip
         pip install -U -r requirements.txt
         
