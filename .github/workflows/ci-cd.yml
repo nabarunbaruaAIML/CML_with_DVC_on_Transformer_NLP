@@ -19,8 +19,8 @@ jobs:
         run: |
           cml-runner \
           --cloud=aws \
-          --cloud-region=us-east \
-          --cloud-type=m3.xlarge \
+          --cloud-region=us-east-1 \
+          --cloud-type=g4dn.xlarge \
           --labels=cml-runner
   train-model:
     needs: deploy-runner
@@ -55,6 +55,3 @@ jobs:
         cat logs/running_logs.log >> report.md
         
         cml-send-comment report.md 
-
-
-
