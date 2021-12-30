@@ -50,7 +50,7 @@ jobs:
         pip install -U -r requirements.txt
         
         # DVC stuff
-        git fetch --prune
+        # git fetch --prune
         dvc repro
        
         echo "## Training Logs" >> report.md
