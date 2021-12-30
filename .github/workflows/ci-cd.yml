@@ -20,7 +20,7 @@ jobs:
           cml-runner \
           --cloud=aws \
           --cloud-region=us-east-1 \
-          --cloud-type=p3.2xlarge \
+          --cloud-type=g4dn.xlarge \
           --labels=cml-runner
   train-model:
     needs: deploy-runner
