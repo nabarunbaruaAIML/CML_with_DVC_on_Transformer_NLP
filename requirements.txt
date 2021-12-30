@@ -26,7 +26,7 @@ diskcache==5.2.1
 distro==1.6.0
 dpath==2.0.5
 dulwich==0.20.26
-dvc==2.8.3
+# dvc==2.8.3
 filelock==3.3.2
 flatten-dict==0.4.2
 flufl.lock==6.0
