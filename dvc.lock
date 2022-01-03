@@ -136,14 +136,14 @@ stages:
         model.use_fast: true
     outs:
     - path: artifacts/Best_Model
-      md5: db63b37ffe9a127e8f424c95bdf7f4cc.dir
-      size: 48135439
+      md5: d3672cbeb7e9a3b6792b75b7d682e463.dir
+      size: 48135440
       nfiles: 7
     - path: artifacts/Sentence-Classif
-      md5: 27fdb19c897eebe007c64f27e1998b76.dir
-      size: 425307627
+      md5: 68d5b690c74cca7285c901f5b3780bd4.dir
+      size: 425307628
       nfiles: 30
     - path: wandb
-      md5: 26bfbdd735ae73a1a7a0ef20415da76e.dir
-      size: 522334
+      md5: b54f2c7c5cb242f3a64af32845388220.dir
+      size: 519580
       nfiles: 9

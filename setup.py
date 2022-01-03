@@ -7,16 +7,17 @@ with open("README.md", "r", encoding="utf-8") as f:
 REPO_NAME = "CML_with_DVC_on_Transformer_NLP.git"
 AUTHOR_USER_NAME = "nabarunbaruaAIML"
 SRC_REPO = "src"
-LIST_OF_REQUIREMENTS = ['tqdm',
-                        'dvc',
-                        'pandas',
-                        'numpy',
-                        'transformers',
-                        'datasets',
-                        'PyYAML', 
-                        'boto3',
-                        'matplotlib'
-                        ]
+LIST_OF_REQUIREMENTS = []
+# LIST_OF_REQUIREMENTS = ['tqdm',
+#                         'dvc',
+#                         'pandas',
+#                         'numpy',
+#                         'transformers',
+#                         'datasets',
+#                         'PyYAML', 
+#                         'boto3',
+#                         'matplotlib'
+#                         ]
 
 
 setup(
