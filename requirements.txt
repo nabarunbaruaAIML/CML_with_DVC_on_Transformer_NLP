@@ -114,7 +114,6 @@
 # zc.lockfile==2.0
 # zipp==3.6.0
 psutil
-python3-devel
 tqdm
 dvc
 pandas
