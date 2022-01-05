@@ -26,7 +26,7 @@ artifacts:
 
 
 local_data_dirs:
-  - artifacts/data
+  - artifacts/Data
 
 source_download_dirs: 
   - ../outside_data/Text_Classification
