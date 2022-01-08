@@ -4,14 +4,14 @@ stages:
     cmd: python src/stage_01_load_save.py --config=configs/config.yaml --params=params.yaml
     deps:
     - path: configs/config.yaml
-      md5: 0ad5340b6dc6fa00e9c5755d8ed0eb75
+      md5: c5e5c1addfeefb0007d8c4b8e56e38d8
       size: 838
     - path: src/stage_01_load_save.py
       md5: 7048d94a8a396114170cc675def09351
       size: 2709
     - path: src/utils/all_utils.py
-      md5: f46baa3774fed3c2822b95877660194e
-      size: 4950
+      md5: 0ad71565eac7b258e110ac050195dcd2
+      size: 6709
     params:
       params.yaml:
         TrainingArgument.run_name: albert-base-v2_Run_DVC_1
@@ -32,14 +32,14 @@ stages:
       md5: 9f19d740a9876212b24bc0dd89b508a1
       size: 391936
     - path: configs/config.yaml
-      md5: 0ad5340b6dc6fa00e9c5755d8ed0eb75
+      md5: c5e5c1addfeefb0007d8c4b8e56e38d8
       size: 838
     - path: src/stage_02_prepare_dataset.py
-      md5: e31c4fb9a21ca517f1139c9c05504217
-      size: 4115
+      md5: c0ed81d6e636dda2420f4009fd0a88c0
+      size: 4254
     - path: src/utils/all_utils.py
-      md5: f46baa3774fed3c2822b95877660194e
-      size: 4950
+      md5: 0ad71565eac7b258e110ac050195dcd2
+      size: 6709
     params:
       params.yaml:
         Dataset.test_size: 0.1
@@ -51,8 +51,8 @@ stages:
         model.use_fast: true
     outs:
     - path: artifacts/Data/Dataset
-      md5: 79f3277d952f1c8a664f84bc8444e1f6.dir
-      size: 3929369
+      md5: 6c2bb5363dad0f837bb3618ffa593d82.dir
+      size: 3931995
       nfiles: 7
     - path: artifacts/Data/id2label.json
       md5: 4eb8692137a88c2bfb00f3d41e3f59b9
@@ -95,21 +95,21 @@ stages:
     cmd: python src/stage_03_train.py --config=configs/config.yaml --params=params.yaml
     deps:
     - path: artifacts/Data/Dataset
-      md5: 79f3277d952f1c8a664f84bc8444e1f6.dir
-      size: 3929369
+      md5: 6c2bb5363dad0f837bb3618ffa593d82.dir
+      size: 3931995
       nfiles: 7
     - path: artifacts/Data/label_num.json
       md5: 720ce1dfb128c5878d779d4ad13c3073
       size: 31
     - path: configs/config.yaml
-      md5: 0ad5340b6dc6fa00e9c5755d8ed0eb75
+      md5: c5e5c1addfeefb0007d8c4b8e56e38d8
       size: 838
     - path: src/stage_03_train.py
       md5: b4cdf7a9212fb2abeddf8a5b399f2405
       size: 7548
     - path: src/utils/all_utils.py
-      md5: f46baa3774fed3c2822b95877660194e
-      size: 4950
+      md5: 0ad71565eac7b258e110ac050195dcd2
+      size: 6709
     params:
       params.yaml:
         TrainingArgument.Cuda: false
@@ -136,14 +136,14 @@ stages:
         model.use_fast: true
     outs:
     - path: artifacts/Best_Model
-      md5: 8e1dc115df7fbcb2dc84395d243139d3.dir
+      md5: 80a55269d6bd294397afabf97378e997.dir
       size: 48135440
       nfiles: 7
     - path: artifacts/Sentence-Classif
-      md5: b65f4003dc7ce5c547b7bf322853eabc.dir
-      size: 425307629
+      md5: dbbe1a62acd0b67bdfbc24359952a5f8.dir
+      size: 425307630
       nfiles: 30
     - path: wandb
-      md5: 6a4561a64389cf41830fb3827e2a2d56.dir
-      size: 524573
+      md5: 15e66ffca2f15433e7ac2d9b27ffc6d6.dir
+      size: 612256
       nfiles: 9

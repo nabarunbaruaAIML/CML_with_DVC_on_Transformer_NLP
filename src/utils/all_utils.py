@@ -9,6 +9,9 @@ import logging
 import shutil
 import time
 import boto3
+from datasets import load_dataset
+from datasets import Dataset
+from datasets import ClassLabel
 
 
 def read_json(path_to_json: str) -> dict:
@@ -67,8 +70,7 @@ def copy_file_csv(source_download_dir, local_data_dir):
     #     dest = os.path.join(local_data_dir, file)
     #     shutil.copy(src, dest)
 def copy_file_from_S3(s3,S3_location, local_data_dir):
-    print('S3 load start')
-    
+    # print('S3 load start')    
     obj = s3.Bucket(S3_location)
     list_of_files =[ i.key for i in obj.objects.all() ] 
     N = len(list_of_files)
@@ -78,13 +80,13 @@ def copy_file_from_S3(s3,S3_location, local_data_dir):
         # src = os.path.join(source_download_dir, file)
         dest = os.path.join(local_data_dir, file)
         
-        print(f'Destination{dest}')
+        # print(f'Destination{dest}')
         
         # shutil.copy(src, dest)
         s3.Bucket(S3_location).download_file(Key=file, Filename=dest)
         logging.info(f"Copying File from S3 to {dest} Completed! Succefully")
         
-        print(f"Copying File from S3 to {dest} Completed! Succefully")
+        # print(f"Copying File from S3 to {dest} Completed! Succefully")
     
 def get_timestamp(name):
     timestamp = time.asctime().replace(" ", "_").replace(":", "_")
@@ -121,6 +123,43 @@ def read_data(string,tokenizer,padding,max_length,truncation,stop_words=None):
     json['labels']= Label 
     logging.info(f"Read Completed and Tokenise Succefully")
     return json,id2label,label2id,label_num,Label_set
+
+def read_dataset(string,tokenizer,padding,max_length,truncation ):
+    # json = {}
+    df = pd.read_csv(string)
+    # DataFrame_Filtered = df.iloc[:,0:2]
+    Label_set = set(df.iloc[:,0])
+    Label_set = sorted(Label_set)
+    label2id = {v:k for k,v in enumerate(Label_set,0)}
+    id2label = {k:v for k,v in enumerate(Label_set,0)}
+    label_num = len( Label_set )
+    del df
+    dataset = load_dataset('csv',  data_files = string)
+    dataset = dataset['train']
+    for i,v in enumerate(dataset.features):
+        if(i==0):
+            dataset= dataset.rename_column(v.lower(),'labels')
+        if(i==1):
+            dataset= dataset.rename_column(v.lower(),'text')
+    
+    def labelMap(example):
+        example['labels']=label2id[example['labels']]
+        return example
+    def tokenize_function(example):
+        return tokenizer(example["text"], truncation=truncation,padding =padding,max_length=max_length)
+    dataset = dataset.map(labelMap )
+    VClassLabel = ClassLabel(names=Label_set)
+    dataset =dataset.cast_column('labels',VClassLabel)
+    dataset = dataset.align_labels_with_mapping(label2id, "labels")
+    dataset = dataset.map(tokenize_function, batched=True)
+    # dataset = dataset_new.train_test_split(test_size=0.1)
+    
+    # This Column could be kept as it is and Trainer & Model would be have takecare, it's been remove to save memory
+    dataset = dataset.remove_columns(['text'])  
+    # dataset.set_format('torch')
+    logging.info(f"Read Completed and Tokenise Succefully")
+    
+    return dataset,id2label,label2id,label_num,Label_set
 
 def save_json(path, data):
     with open(path, "w") as f:

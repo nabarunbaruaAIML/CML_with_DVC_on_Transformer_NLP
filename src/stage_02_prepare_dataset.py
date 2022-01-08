@@ -3,7 +3,7 @@ import os
 import shutil
 from tqdm import tqdm
 import logging
-from src.utils.all_utils import read_yaml,create_directory,read_data,save_json
+from src.utils.all_utils import read_yaml,create_directory,read_dataset,save_json
 from transformers import AutoTokenizer
 from datasets import load_dataset
 import pandas as pd
@@ -60,7 +60,8 @@ def main(config_path):
     # secret = read_yaml(config_path.secret)
     
     tokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=use_fast,cache_dir = base_model_path )
-    json,id2label,label2id,label_num,Label_set = read_data(local_data_dirs_filename,tokenizer,padding,max_length,truncation)
+    # json,id2label,label2id,label_num,Label_set = read_data(local_data_dirs_filename,tokenizer,padding,max_length,truncation)
+    dataset,id2label,label2id,label_num,Label_set = read_dataset(local_data_dirs_filename,tokenizer,padding,max_length,truncation)
     label_num_json = {}
     label_num_json['Number_of_Label'] = label_num
     # save_json(DownloadData_filename_path,json)
@@ -68,7 +69,7 @@ def main(config_path):
     save_json(LABEL2ID_filename_path,label2id)
     save_json(LABEL_NUM_filename_path,label_num_json)
     
-    dataset = Dataset.from_dict(json)
+    # dataset = Dataset.from_dict(json)
     dataset = dataset.train_test_split(test_size=test_size)
     dataset.save_to_disk(Dataset_path)#('artifacts/Data/Dataset/T1')
     logging.info(f"Saved transition Dataset into path {Dataset_path} Succefully!")

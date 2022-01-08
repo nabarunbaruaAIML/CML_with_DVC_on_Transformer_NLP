@@ -1,7 +1,7 @@
 # add ci-cd steps here
 name: Training-Transformer-Model
 on: 
-  push: 
+  push: # Use Deploy instead of Push to make it Productionizable 
     branches:
       - main
 jobs:
