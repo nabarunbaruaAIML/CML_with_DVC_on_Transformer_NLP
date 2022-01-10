@@ -48,7 +48,7 @@ then fill Details and create repository from the template.
 ```bash
 conda create --prefix ./env python=3.7 -y
 ```
-Activate the environment in the VSCode by executing the following command:
+Activate the environment in the VSCode by executing the following command::
 ```bash
 conda activate ./env
 ```
