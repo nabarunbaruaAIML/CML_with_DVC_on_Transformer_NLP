@@ -143,11 +143,11 @@ def read_dataset(string,tokenizer,padding,max_length,truncation ):
             dataset= dataset.rename_column(v.lower(),'text')
     
     def labelMap(example):
-        example['labels']=label2id[example['labels']]
-        return example
+        # example['labels']=label2id[example['labels']]
+        return {'labels':[label2id[i] for i in example['labels'] ] }#example
     def tokenize_function(example):
         return tokenizer(example["text"], truncation=truncation,padding =padding,max_length=max_length)
-    dataset = dataset.map(labelMap )
+    dataset = dataset.map(labelMap, batched=True)
     VClassLabel = ClassLabel(names=Label_set)
     dataset =dataset.cast_column('labels',VClassLabel)
     dataset = dataset.align_labels_with_mapping(label2id, "labels")
