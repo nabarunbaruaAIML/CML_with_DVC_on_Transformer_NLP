@@ -126,7 +126,4 @@
 
 
     # W.I.P : Deployment Pipeline will shortly follow this repository
-    ##  Dockerized Container Application clusters with Kubernetes orchestration 
-
-
-
+    ##  Dockerized Container Application clusters with Kubernetes orchestration
