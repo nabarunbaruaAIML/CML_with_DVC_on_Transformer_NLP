@@ -45,15 +45,27 @@ Data processing or ML pipelines typically start a with large raw datasets for mo
 DVC pipelines and their data can also be easily versioned (using Git). This allows you to better organize your project, and reproduce your workflow  when and where required and the results can totally ace it!
 
 
+
 ### Why S3?
-![S3 Storage](./S3.jpeg)
+![S3 Storage](./S3.jpg)
 Amazon S3 is what we have used as a remote storage for Data .Firstly, starting with the platform github, we have restrictions storing data at scale in github (limit being as little as 100mb) .Secondly, as part of best practices , it is never considered safe to store data on Code repositories (be is privately hostel Github,Gitlab,Bitbucket etc)
 As the enterprise softwares thes days have a prerequisite to be GDPR compliant. The secrecy of data is of high importance.
 Now, Amazon S3 being one of the most reliable and secure storage , we chose it for our use case too. S3 is also highly agile and has the all-time availability trait.We may for the most part find it difficult to sometimes store and manage data, however, with S3 its such a breeze to manage data at such low costs. (You can also refer the Boto-core section above for integration information)
+So head over to amazon S3 setup the account and create a bucket with a decent storage. 
+This bucker can then be connected to for file transferring using tools like Putty,MobaXterm,FileZilla etc.
+This way you can place the files and get the location .
+
+### Why EC2?
+
+EC2 is a cost efficient virtual server in Amazon's  Elastic Compute Cloud for Amazon Web Services .
+Its highly elastic, scalable and reliable when it comes to Failover management and information security.There are out of the box features such as Elastic Load balancing which automatically distributes the traffic to the active instances and recovers the unhealthy instances. However , we would be using these features only during out deployment pipeline. 
+So, to perform the model training, you would have to have an instance of the below kind at the least:
+![EC2](./EC2.jpg)
+Because, as we know, Transformers are resource intensive .
 
 
-
-
+### Is there a Rigid File Structure for DVC ?
+Yes ,
 
 
 ## Now follow below steps for kickstarting the project:
