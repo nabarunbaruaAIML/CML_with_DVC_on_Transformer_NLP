@@ -98,10 +98,19 @@ configurations are in place with the same sequence.
 #### This then starts the pipeline defined in the workflow as can be seen below in the Actions tab
 ![Actions](./Actions.png)
 #### The configured DVC stages are executed now one after the other in a EC2( Ubuntu 18 OS) configured instance (our case) else if the instance is not configured then github runs these on a spot instance internally and after the completion of the entire pipeline ,it also cleans up the resources utilized leaving us with only the Metrics and Best model saved.
- 
-#### As mentioned before, the order of execution of stages can be seen below. 
+
+
+#### As mentioned before, the order of execution of stages can be seen below:
 ![ActionSequence](./training_sequence.png)
-#### Detailed logs of the same can also be found by clicking the ste
+
+
+#### Detailed logs of the same can also be found by clicking the step: Now as seen below, the training starts and finishes
+
+![ActionSequence](./training.png)
+#### Logs of custom level (info,debug,error) can also be customized and accessed from the EC2 instance as well if we are using a dedicated instance and not the spot instance of Github.
+
+
+
 
 # W.I.P : Deployment Pipeline will shortly follow this repository
 ##  Dockerized Container Application clusters with Kubernetes orchestration 
