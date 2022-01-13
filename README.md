@@ -17,7 +17,7 @@ Before we begin with the session few things which need to be setuped are as foll
 - Second EC2 Spot Instance need to be requested in advance if not done earlier.
 
 Please follow these online Resource AWS related information
-![image]({https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white})
+![image]({https://camo.githubusercontent.com/d79c5549652f9c7690992eb49571d216a70a480681561cbd93bfbfc77c491e54/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f596f75547562652d4646303030303f7374796c653d666f722d7468652d6261646765266c6f676f3d796f7574756265266c6f676f436f6c6f723d7768697465})
 - [Youtube Resource 1](https://www.youtube.com/watch?v=rYHt0gtRKFg&t=180s)
 - [Youtube Resource 2](https://www.youtube.com/watch?v=GCt-cymgdvo)
 - [For right GPU Selection](https://towardsdatascience.com/choosing-the-right-gpu-for-deep-learning-on-aws-d69c157d8c86) and for the same [Youtube Link](https://www.youtube.com/watch?v=4bVrIbgGWEA)
