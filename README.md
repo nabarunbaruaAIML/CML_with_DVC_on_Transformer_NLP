@@ -157,7 +157,7 @@ As can be seen below are the best weights we have managed obtain on the differen
 
 
 
-### STEP 08- Ending note :
+### STEP 10- Ending note :
 When all the steps are finished, the last event in the cml workflow is executed which is to comment on the thread.
 ```bash
 cml-send-comment report.md 
