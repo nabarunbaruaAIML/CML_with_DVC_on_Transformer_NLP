@@ -112,7 +112,17 @@ Logs of custom level (info,debug,error) can also be customized and accessed from
 ### STEP 08- Experiment Management:
 DVC Studio - [DVC Studio](https://studio.iterative.ai)
 This helps us in ML experiment tracking, visualization, and collaboration(While a team of developers work with different sets of experiments).DVC Studio does bookkeeping automatically too. See below: 
-![DVC Studio ](./dvc_studio.jpeg)
+
+![DVC Studio ](./dvc_studio.png)
+
+Since DVC Studio integrates with github smoothly, we can review and cherry pick each commit related to the experiments and this gives a whole lot of flexibility.
+
+### STEP 08- Evaluation Metrics Management :
+wandb  -Weights and Biases  [Wandb](https://wandb.ai/site)
+Although, DVC Studio This helps us in ML experiment tracking, visualization, and collaboration and best models if used ,
+Weights and Biases(wandb) makes it even more easier by recording evaluation metrices and providing insights with plots.
+![Evaluation](./wandb_dashboard.jpeg)
+
 
 
 # W.I.P : Deployment Pipeline will shortly follow this repository
