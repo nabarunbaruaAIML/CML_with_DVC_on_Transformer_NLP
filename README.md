@@ -39,12 +39,12 @@ then fill Details and create repository from the template.
 
 #Overview:
 ### Why DVC ?
-![DAG Principle](./dag.png)
+![DAG Principle](./Dag.png)
 
 
-#### Data processing or ML pipelines typically start a with large raw datasets for most usecases , inclusive of intermediate featurization and training stages .This then finally produces a final tuned model along with the needed accuracy metrics.
-#### Versioning of these large data files and directories alone is not sufficient.We also need to understand  How the data is filtered, transformed , enriched (if the case be) , or used to finally train  the ML models? DVC introduces a mechanism to capture and monitor those data pipelines — series of data processes that produce a final result (A final state as that of a graph).
+#### Data processing or ML pipelines typically start a with large raw datasets for most usecases , inclusive of intermediate featurization and training stages .This then finally produces a final tuned model along with the needed accuracy metrics. Versioning of these large data files and directories alone is not sufficient.We also need to understand  How the data is filtered, transformed , enriched (if the case be) , or used to finally train  the ML models? DVC introduces a mechanism to capture and monitor those data pipelines — series of data processes that produce a final result (A final state as that of a graph).
 #### DVC pipelines and their data can also be easily versioned (using Git). This allows you to better organize your project, and reproduce your workflow  when and where required and the results can totally ace it!
+####
 
 
 
@@ -87,10 +87,21 @@ git commit -m "Detailed Commit for further reference"
 git push origin master    # Branch of choice
 ```
 
-### STEP 06- Push trigger for the Pipeline
-The push operation triggers the entire training pipeline as explained on top provided all required API keys and 
+### STEP 06- Push operation triggers for the Pipeline
+#### The push operation triggers the entire training pipeline as explained on top provided all required API keys and 
 configurations are in place with the same sequence.
 
+
+
+
+### STEP 07- Push is listened to as an Event by the github workflow .
+#### This then starts the pipeline defined in the workflow as can be seen below in the Actions tab
+![Actions](./Actions.png)
+#### The configured DVC stages are executed now one after the other in a EC2( Ubuntu 18 OS) configured instance (our case) else if the instance is not configured then github runs these on a spot instance internally and after the completion of the entire pipeline ,it also cleans up the resources utilized leaving us with only the Metrics and Best model saved.
+ 
+#### As mentioned before, the order of execution of stages can be seen below. 
+![ActionSequence](./training_sequence.png)
+#### Detailed logs of the same can also be found by clicking the ste
 
 # W.I.P : Deployment Pipeline will shortly follow this repository
 ##  Dockerized Container Application clusters with Kubernetes orchestration 
