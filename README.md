@@ -71,7 +71,7 @@ Yes , More than rigidity it means a standard which way it becomes very easy for 
 As seen above, stage_01_load_save.py , stage_02_prepare_dataset.py , stage_03_train.py 
 are the stages of the DAG or the DVC pipeline. yaml files such as dvc.yaml , params.yaml and config.yaml carries the major mandatory configurations. dvc.yaml  being the control file here with all the Stage details like follows :
 ![DVC config](./dvc_config.png)
-
+The all_utils.py can be seen as a collection of operational python functions which is such that it is modular and reusable which constitutes File operations etc
 
 
 ## Now follow below steps for kickstarting the project:
