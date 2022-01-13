@@ -112,7 +112,7 @@ Logs of custom level (info,debug,error) can also be customized and accessed from
 ### STEP 08- Experiment Management:
 DVC Studio - [DVC Studio](https://studio.iterative.ai)
 This helps us in ML experiment tracking, visualization, and collaboration(While a team of developers work with different sets of experiments).DVC Studio does bookkeeping automatically too. See below: 
-![DVC Studio ](./dvc_studio.png)
+![DVC Studio ](./dvc_studio.jpeg)
 
 
 # W.I.P : Deployment Pipeline will shortly follow this repository
