@@ -60,7 +60,7 @@ This way you can place the files and get the location .
 EC2 is a cost efficient virtual server in Amazon's  Elastic Compute Cloud for Amazon Web Services .
 Its highly elastic, scalable and reliable when it comes to Failover management and information security.There are out of the box features such as Elastic Load balancing which automatically distributes the traffic to the active instances and recovers the unhealthy instances. However , we would be using these features only during out deployment pipeline. 
 So, to perform the model training, you would have to have an instance of the below kind at the least:
-![EC2](./EC2.jpg)
+![EC2](./EC2.png)
 Because, as we know, Transformers are resource intensive .
 
 
