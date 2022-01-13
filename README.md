@@ -88,28 +88,31 @@ git push origin master    # Branch of choice
 ```
 
 ### STEP 06- Push operation triggers for the Pipeline
-#### The push operation triggers the entire training pipeline as explained on top provided all required API keys and 
+The push operation triggers the entire training pipeline as explained on top provided all required API keys and 
 configurations are in place with the same sequence.
 
 
 
 
-### STEP 07- Push is listened to as an Event by the github workflow .
-#### This then starts the pipeline defined in the workflow as can be seen below in the Actions tab
+### STEP 07- Push as the Github Event: 
+Github listens to Push as an Event by the github workflow .This then starts the pipeline defined in the workflow as can be seen below in the Actions tab
+
 ![Actions](./Actions.png)
-#### The configured DVC stages are executed now one after the other in a EC2( Ubuntu 18 OS) configured instance (our case) else if the instance is not configured then github runs these on a spot instance internally and after the completion of the entire pipeline ,it also cleans up the resources utilized leaving us with only the Metrics and Best model saved.
+The configured DVC stages are executed now one after the other in a EC2( Ubuntu 18 OS) configured instance (our case) else if the instance is not configured then github runs these on a spot instance internally and after the completion of the entire pipeline ,it also cleans up the resources utilized leaving us with only the Metrics and Best model saved.
 
-
-#### As mentioned before, the order of execution of stages can be seen below:
+As mentioned before, the order of execution of stages can be seen below:
 ![ActionSequence](./training_sequence.png)
 
-
-#### Detailed logs of the same can also be found by clicking the step: Now as seen below, the training starts and finishes
-
+Detailed logs of the same can also be found by clicking the step: Now as seen below, the training starts and finishes
 ![ActionSequence](./training.png)
-#### Logs of custom level (info,debug,error) can also be customized and accessed from the EC2 instance as well if we are using a dedicated instance and not the spot instance of Github.
+
+Logs of custom level (info,debug,error) can also be customized and accessed from the EC2 instance as well if we are using a dedicated instance and not the spot instance of Github.
 
 
+### STEP 08- Experiment Management:
+DVC Studio - [DVC Studio](https://studio.iterative.ai)
+This helps us in ML experiment tracking, visualization, and collaboration(While a team of developers work with different sets of experiments).DVC Studio does bookkeeping automatically too. See below: 
+![DVC Studio ](./dvc_studio.png)
 
 
 # W.I.P : Deployment Pipeline will shortly follow this repository
