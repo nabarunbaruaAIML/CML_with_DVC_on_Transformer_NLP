@@ -41,11 +41,15 @@ then fill Details and create repository from the template.
 ### Why DVC ?
 ![DAG Principle](./Dag.png)
 
+Data processing or ML pipelines typically start a with large raw datasets for most usecases , inclusive of intermediate featurization and training stages .This then finally produces a final tuned model along with the needed accuracy metrics. Versioning of these large data files and directories alone is not sufficient.We also need to understand  How the data is filtered, transformed , enriched (if the case be) , or used to finally train  the ML models? DVC introduces a mechanism to capture and monitor those data pipelines — series of data processes that produce a final result (A final state as that of a graph).
+DVC pipelines and their data can also be easily versioned (using Git). This allows you to better organize your project, and reproduce your workflow  when and where required and the results can totally ace it!
 
-#### Data processing or ML pipelines typically start a with large raw datasets for most usecases , inclusive of intermediate featurization and training stages .This then finally produces a final tuned model along with the needed accuracy metrics. Versioning of these large data files and directories alone is not sufficient.We also need to understand  How the data is filtered, transformed , enriched (if the case be) , or used to finally train  the ML models? DVC introduces a mechanism to capture and monitor those data pipelines — series of data processes that produce a final result (A final state as that of a graph).
-#### DVC pipelines and their data can also be easily versioned (using Git). This allows you to better organize your project, and reproduce your workflow  when and where required and the results can totally ace it!
-####
 
+### Why S3?
+![S3 Storage](./S3.jpeg)
+Amazon S3 is what we have used as a remote storage for Data .Firstly, starting with the platform github, we have restrictions storing data at scale in github (limit being as little as 100mb) .Secondly, as part of best practices , it is never considered safe to store data on Code repositories (be is privately hostel Github,Gitlab,Bitbucket etc)
+As the enterprise softwares thes days have a prerequisite to be GDPR compliant. The secrecy of data is of high importance.
+Now, Amazon S3 being one of the most reliable and secure storage , we chose it for our use case too. S3 is also highly agile and has the all-time availability trait.We may for the most part find it difficult to sometimes store and manage data, however, with S3 its such a breeze to manage data at such low costs. (You can also refer the Boto-core section above for integration information)
 
 
 
@@ -122,6 +126,36 @@ wandb  -Weights and Biases  [Wandb](https://wandb.ai/site)
 Although, DVC Studio This helps us in ML experiment tracking, visualization, and collaboration and best models if used ,
 Weights and Biases(wandb) makes it even more easier by recording evaluation metrices and providing insights with plots.
 ![Evaluation](./wandb_dashboard.jpeg)
+
+
+
+### STEP 08- Evaluation Metrics Management :
+wandb  -Weights and Biases  [Wandb](https://wandb.ai/site)
+Although, DVC Studio This helps us in ML experiment tracking, visualization, and collaboration and best models if used ,
+Weights and Biases(wandb) makes it even more easier by recording evaluation metrices and providing insights with plots.
+![Evaluation](./wandb_dashboard.jpeg)
+As can be seen below are the best weights we have managed obtain on the different experiments .This is a very useful feature as finding the best weights can sometimes be a hassle.
+![Evaluation](./Final_Best_Weights.jpeg)
+
+
+
+### STEP 08- Ending note :
+When all the steps are finished, the last event in the cml workflow is executed which is to comment on the thread.
+```bash
+cml-send-comment report.md 
+```  
+When this happens, the message notification will pop on the user banner as you can see.
+![Evaluation](./Comment_pop_up.jpeg)
+
+The complete Training logs can also be found in report.md  as we have configured the below steps in the cml workflow file (ci-cd.yaml)
+```bash
+echo "## Training Logs" >> report.md
+cat logs/running_logs.log >> report.md
+```  
+See below: 
+![Evaluation](./Training_Logs.jpeg)
+
+
 
 
 
