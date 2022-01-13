@@ -39,7 +39,7 @@ then fill Details and create repository from the template.
 
 #Overview:
 ### Why DVC ?
-![DAG Principle](./Dag.png)
+![DAG Principle](./dag.png)
 
 
 #### Data processing or ML pipelines typically start a with large raw datasets for most usecases , inclusive of intermediate featurization and training stages .This then finally produces a final tuned model along with the needed accuracy metrics.
