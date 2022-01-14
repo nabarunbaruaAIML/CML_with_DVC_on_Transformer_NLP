@@ -104,17 +104,7 @@ After Executing above command please comment the DVC in the requirements.txt fil
 ```bash
 dvc init
 ```
-
-### STEP 05- commit and push the changes to the remote repository
-```bash
-git add .
-git commit -m "Detailed Commit for further reference"
-git push origin master    # Branch of choice
-```
-
-### STEP 06- Push operation triggers for the Pipeline
-The push operation triggers the entire training pipeline as explained on top provided all required API keys and 
-configurations are in place with the same sequence.
+### STEP 05- Start EC2 Instance 
 
 Since we are not using aws EC2 Spot instance therefore we are not creating instance in ci-cd.yml file. Therefore we need to have a GPU enabled EC2 Instance and in the terminal of EC2 execute following command.
 
@@ -134,10 +124,21 @@ docker run --name myrunner -d --gpus all \
 
 Keep the EC2 Instance Running so that we can use it in GitHub Action. Once Workflow is finished, you can either shutdown or terminate the EC2 Instance. 
 
+### STEP 06- commit and push the changes to the remote repository
+```bash
+git add .
+git commit -m "Detailed Commit for further reference"
+git push origin master    # Branch of choice
+```
+
+### STEP 07- Push operation triggers for the Pipeline
+The push operation triggers the entire training pipeline as explained on top provided all required API keys and 
+configurations are in place with the same sequence.
 
 
 
-### STEP 07- Push as the Github Event: 
+
+### STEP 08- Push as the Github Event: 
 Github listens to Push as an Event by the github workflow .This then starts the pipeline defined in the workflow as can be seen below in the Actions tab
 
 ![Actions](./Actions.png)
@@ -152,7 +153,7 @@ Detailed logs of the same can also be found by clicking the step: Now as seen be
 Logs of custom level (info,debug,error) can also be customized and accessed from the EC2 instance as well if we are using a dedicated instance and not the spot instance of Github.
 
 
-### STEP 08- Experiment Management:
+### STEP 09- Experiment Management:
 DVC Studio - [DVC Studio](https://studio.iterative.ai)
 This helps us in ML experiment tracking, visualization, and collaboration(While a team of developers work with different sets of experiments).DVC Studio does bookkeeping automatically too. See below: 
 
@@ -160,7 +161,7 @@ This helps us in ML experiment tracking, visualization, and collaboration(While 
 
 Since DVC Studio integrates with github smoothly, we can review and cherry pick each commit related to the experiments and this gives a whole lot of flexibility.
 
-### STEP 08- Evaluation Metrics Management :
+### STEP 10- Evaluation Metrics Management :
 wandb  -Weights and Biases  [Wandb](https://wandb.ai/site)
 Although, DVC Studio This helps us in ML experiment tracking, visualization, and collaboration and best models if used ,
 Weights and Biases(wandb) makes it even more easier by recording evaluation metrices and providing insights with plots.
@@ -168,7 +169,7 @@ Weights and Biases(wandb) makes it even more easier by recording evaluation metr
 
 
 
-### STEP 09- Best Model Selection  :
+### STEP 11- Best Model Selection  :
 wandb  -Weights and Biases  [Wandb](https://wandb.ai/site)
 Although, DVC Studio This helps us in ML experiment tracking, visualization, and collaboration and best models if used ,
 Weights and Biases(wandb) makes it even more easier by recording evaluation metrices and providing insights with plots.
@@ -178,7 +179,7 @@ As can be seen below are the best weights we have managed obtain on the differen
 
 
 
-### STEP 10- Ending note :
+### STEP 12- Ending note :
 When all the steps are finished, the last event in the cml workflow is executed which is to comment on the thread.
 ```bash
 cml-send-comment report.md 
