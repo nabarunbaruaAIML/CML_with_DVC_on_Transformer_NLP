@@ -93,9 +93,12 @@ source activate ./env
 ```
 
 ### STEP 03- install the requirements
+Here uncomment DVC before executing below command
+
 ```bash
 pip install -r requirements.txt
 ```
+After Executing above command please comment the DVC in the requirements.txt file
 
 ### STEP 04- initialize the dvc project
 ```bash
