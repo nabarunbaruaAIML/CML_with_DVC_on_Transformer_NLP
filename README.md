@@ -76,7 +76,7 @@ The all_utils.py can be seen as a collection of operational python functions whi
 
 ## Now follow below steps for kickstarting the project:
 
-### STEP 01- Create local repository after cloning the repository. We can use git bash for cloning if using windows system. If Linux/Mac OS then Terminal will work.
+### STEP 01- Create local repository after cloning the repository Newly created after using the Template Repo. We can use git bash for cloning if using windows system. If Linux/Mac OS then Terminal will work.
 
 ### STEP 02- Create a conda environment after opening the repository in VSCODE
 
