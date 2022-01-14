@@ -116,6 +116,24 @@ git push origin master    # Branch of choice
 The push operation triggers the entire training pipeline as explained on top provided all required API keys and 
 configurations are in place with the same sequence.
 
+Since we are not using aws EC2 Spot instance therefore we are not creating instance in ci-cd.yml file. Therefore we need to have a GPU enabled EC2 Instance and in the terminal of EC2 execute following command.
+
+```bash
+docker run --gpus all dvcorg/cml-py3 nvidia-smi
+```
+then
+
+```bash
+docker run --name myrunner -d --gpus all \
+    -e RUNNER_IDLE_TIMEOUT=1800 \
+    -e RUNNER_LABELS=cml,gpu \
+    -e RUNNER_REPO="https://github.com/USER_ID/REPO_NAME" \
+    -e repo_token=REPO_Token \
+    dvcorg/cml-py3
+```
+
+Keep the EC2 Instance Running so that we can use it in GitHub Action. Once Workflow is finished, you can either shutdown or terminate the EC2 Instance. 
+
 
 
 
