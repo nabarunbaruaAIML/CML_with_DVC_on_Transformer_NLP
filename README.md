@@ -66,11 +66,14 @@ Because, as we know, Transformers are resource intensive .
 
 ### Is there a Rigid File Structure for DVC ?
 Yes , More than rigidity it means a standard which way it becomes very easy for organization and continuous iterations of change .
+
 ![FileStructure](./FileStructure.png)
 
 As seen above, stage_01_load_save.py , stage_02_prepare_dataset.py , stage_03_train.py 
 are the stages of the DAG or the DVC pipeline. yaml files such as dvc.yaml , params.yaml (**This file Contains all the Parameter which are needed to perform experiments on Training Pipline via DVC Studio**) and config.yaml(**This file contains all the configuration for training pipeline**) carries the major mandatory configurations. dvc.yaml being the control file here with all the Stage details like follows :
+
 ![DVC config](./dvc_config.png)
+
 The all_utils.py can be seen as a collection of operational python functions which is such that it is modular and reusable which constitutes File operations etc
 
 
