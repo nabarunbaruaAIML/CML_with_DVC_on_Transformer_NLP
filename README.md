@@ -9,7 +9,7 @@ Below are the online resource used for building this Project.
 - [DVC Youtube Playlist](https://www.youtube.com/playlist?list=PL7WG7YrwYcnDBDuCkFbcyjnZQrdskFsBz) and [DVC CML Official Doc](https://cml.dev/doc/self-hosted-runners?tab=AWS)
 - [Official Huggingface Website](https://huggingface.co/docs)
 - [Weights & Biases Official Doc](https://docs.wandb.ai/guides/integrations/huggingface)
-- Apart from above from iNeuron's Team Sunny Bhaveen Chandra Session on DVC Helped to complete this project
+- Apart from above, AIOPS Course from iNeuron's Team where Sunny Bhaveen Chandra gave Session on DVC helped to complete this project
 
 Before we begin with the session few things that which need to be setup are as follows:
 - One AWS IAM user with EC2 & S3 Developer Access 
@@ -69,7 +69,7 @@ Yes , More than rigidity it means a standard which way it becomes very easy for 
 ![FileStructure](./FileStructure.png)
 
 As seen above, stage_01_load_save.py , stage_02_prepare_dataset.py , stage_03_train.py 
-are the stages of the DAG or the DVC pipeline. yaml files such as dvc.yaml , params.yaml and config.yaml carries the major mandatory configurations. dvc.yaml  being the control file here with all the Stage details like follows :
+are the stages of the DAG or the DVC pipeline. yaml files such as dvc.yaml , params.yaml (**This file Contains all the Parameter which are needed to perform experiments on Training Pipline via DVC Studio**) and config.yaml(**This file contains all the configuration for training pipeline**) carries the major mandatory configurations. dvc.yaml being the control file here with all the Stage details like follows :
 ![DVC config](./dvc_config.png)
 The all_utils.py can be seen as a collection of operational python functions which is such that it is modular and reusable which constitutes File operations etc
 
