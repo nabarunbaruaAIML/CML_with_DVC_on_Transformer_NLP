@@ -24,7 +24,7 @@ def main(config_path):
     config = read_yaml(config_path.config)
     local_data_dirs= config['local_data_dirs'][0]
     
-    
+    # Configuration Initialization
     artifacts = config['artifacts']
     local_data_dirs_filename = os.path.join(local_data_dirs ,artifacts['local_data_dirs_filename'])
     artifacts_dir = artifacts['ARTIFACTS_DIR']
@@ -48,6 +48,7 @@ def main(config_path):
     
     create_directory([base_model_path,DownloadData_path,Dataset_path])
     
+    # Parameter Initialization
     params = read_yaml(config_path.params)
     Data = params['Dataset']
     test_size = Data['test_size']
@@ -59,6 +60,7 @@ def main(config_path):
     truncation =  model['truncation']
     # secret = read_yaml(config_path.secret)
     
+    # Prepareing and Saving Dataset
     tokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=use_fast,cache_dir = base_model_path )
     # json,id2label,label2id,label_num,Label_set = read_data(local_data_dirs_filename,tokenizer,padding,max_length,truncation)
     dataset,id2label,label2id,label_num,Label_set = read_dataset(local_data_dirs_filename,tokenizer,padding,max_length,truncation)

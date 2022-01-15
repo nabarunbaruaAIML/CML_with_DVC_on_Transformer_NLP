@@ -33,6 +33,8 @@ def main(config_path):
     Wandb_API= os.getenv('WANDB_API_KEY')
     
     wandb.login(key=Wandb_API)
+    
+    # Parameter Initialization
     model = params['model']
     model_name = model['base_model']
     use_fast =  model['use_fast']
@@ -40,6 +42,7 @@ def main(config_path):
     max_length =  model['max_length']
     truncation =  model['truncation']
     
+    # Configuration Initialization
     artifacts = config['artifacts']
     artifacts_dir = artifacts['ARTIFACTS_DIR']
     best = artifacts['Best_Dir']
@@ -64,11 +67,14 @@ def main(config_path):
     Jdata = json.load(Jfile)
     Jfile.close()
     
+    # Loading Dataset
     dataset = load_from_disk(Dataset_path) #('artifacts/Data/Dataset')
+    
     # dataset = load_from_disk('artifacts/Data/Dataset/T1')
     # dataset.set_format(type='torch')
     logging.info(f"Loaded Dataset from path {Dataset_path} Succefully and Dataset = {dataset}")
     
+    # Loading Tokenizer
     tokenizer = AutoTokenizer.from_pretrained(model_name ,cache_dir =  base_model_path, use_fast=use_fast)
     logging.info(f"Loaded Tokenizer of Model {model_name} Succefully !")
     
@@ -76,11 +82,13 @@ def main(config_path):
     ID2Label = read_json(ID2L_path)
     config = AutoConfig.from_pretrained(model_name, label2id=Label2ID, id2label=ID2Label,  num_labels=Jdata['Number_of_Label'])
     
+    # Loading Model
     Transformer_Model = AutoModelForSequenceClassification.from_pretrained(model_name ,cache_dir =  base_model_path, config=config)
     logging.info(f"Loaded Model {model_name} Succefully !")
     
     data_collator = DataCollatorWithPadding(tokenizer,padding = padding, max_length= max_length)
     
+    # Parameter Initialization
     TrainingArgument = params['TrainingArgument']
     metric_name = TrainingArgument['metric_name']
     Output_Dir = TrainingArgument['Output_Dir']
@@ -111,7 +119,7 @@ def main(config_path):
         predictions = np.argmax(predictions, axis=1)
     
         return metric_loaded.compute(predictions=predictions, references=labels)
-    
+    # Model Argument and Training
     args = TrainingArguments(
                                 output_dir= Output_Dir,
                                 evaluation_strategy = Evaluation_Strategy,
@@ -151,11 +159,6 @@ def main(config_path):
     
     logging.info(f"Evalution Completed with Evalution Data {evalu}")
     
-    # ttt = AutoModelForSequenceClassification.from_pretrained('artifacts/Best_Model')
-    
-    # print(ttt)
-    # secret = read_yaml(config_path.secret)
-    # pass
 
 if __name__ == '__main__':
     args = argparse.ArgumentParser()

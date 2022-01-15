@@ -25,6 +25,8 @@ def main(config_path):
     config = read_yaml(config_path.config)
     params = read_yaml(config_path.params)
     # secret = read_yaml(config_path.secret)
+    
+    # Configuration Initialization
     artifacts = config['artifacts']
     source_download_dirs= config["source_S3"]
     artifacts_dir = artifacts['ARTIFACTS_DIR']
@@ -35,6 +37,8 @@ def main(config_path):
     AWS_ACCESS_KEY_ID= os.getenv('AWS_ACCESS_KEY_ID')
     AWS_SECRET_ACCESS_KEY= os.getenv('AWS_SECRET_ACCESS_KEY')
     AWS_DEFAULT_REGION= os.getenv('AWS_DEFAULT_REGION')
+    
+    # Loading Data from S3 Bucket
     s3 = boto3.resource(
                             service_name='s3',
                             region_name=AWS_DEFAULT_REGION,
