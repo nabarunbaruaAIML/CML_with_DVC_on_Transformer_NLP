@@ -178,7 +178,7 @@ Although, DVC Studio This helps us in ML experiment tracking, visualization, and
 Weights and Biases(wandb) makes it even more easier by recording evaluation metrices and providing insights with plots.
 ![Evaluation](./wandb_dashboard.jpeg)
 As can be seen below are the best weights we have managed obtain on the different experiments .This is a very useful feature as finding the best weights can sometimes be a hassle.
-![Evaluation](./Final_Best_Weights.jpeg)
+![Evaluation](./Final_Best_Weights.png)
 
 
 
