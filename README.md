@@ -31,15 +31,15 @@ Lets begin by click and going into this [Template Repository](https://github.com
 
 Once into Template Repository Please click Button **Use this Template**.
 
-![Template Repository](./Template-Repo.jpg)
+![Template Repository](./documentation_elements/Template-Repo.jpg)
 
 then fill Details and create repository from the template.
-![Fill Details](./Fill-Details.jpg)
+![Fill Details](./documentation_elements/Fill-Details.jpg)
 
 
 # Overview:
 ### Why DVC ?
-![DAG Principle](./dag.png)
+![DAG Principle](./documentation_elements/dag.png)
 
 Data processing or ML pipelines typically start a with large raw datasets for most usecases , inclusive of intermediate featurization and training stages .This then finally produces a final tuned model along with the needed accuracy metrics. Versioning of these large data files and directories alone is not sufficient.We also need to understand  How the data is filtered, transformed , enriched (if the case be) , or used to finally train  the ML models? DVC introduces a mechanism to capture and monitor those data pipelines — series of data processes that produce a final result (A final state as that of a graph).
 DVC pipelines and their data can also be easily versioned (using Git). This allows you to better organize your project, and reproduce your workflow  when and where required and the results can totally ace it!
@@ -47,7 +47,7 @@ DVC pipelines and their data can also be easily versioned (using Git). This allo
 
 
 ### Why S3?
-![S3 Storage](./S3.jpg)
+![S3 Storage](./documentation_elements/S3.jpg)
 Amazon S3 is what we have used as a remote storage for Data .Firstly, starting with the platform github, we have restrictions storing data at scale in github (limit being as little as 100mb) .Secondly, as part of best practices , it is never considered safe to store data on Code repositories (be is privately hostel Github,Gitlab,Bitbucket etc)
 As the enterprise softwares thes days have a prerequisite to be GDPR compliant. The secrecy of data is of high importance.
 Now, Amazon S3 being one of the most reliable and secure storage , we chose it for our use case too. S3 is also highly agile and has the all-time availability trait.We may for the most part find it difficult to sometimes store and manage data, however, with S3 its such a breeze to manage data at such low costs. (You can also refer the Boto-core section above for integration information)
@@ -60,19 +60,19 @@ This way you can place the files and get the location .
 EC2 is a cost efficient virtual server in Amazon's  Elastic Compute Cloud for Amazon Web Services .
 Its highly elastic, scalable and reliable when it comes to Failover management and information security.There are out of the box features such as Elastic Load balancing which automatically distributes the traffic to the active instances and recovers the unhealthy instances. However , we would be using these features only during out deployment pipeline. 
 So, to perform the model training, you would have to have an instance of the below kind at the least:
-![EC2](./EC2.png)
+![EC2](./documentation_elements/EC2.png)
 Because, as we know, Transformers are resource intensive .
 
 
 ### Is there a Rigid File Structure for DVC ?
 Yes , More than rigidity it means a standard which way it becomes very easy for organization and continuous iterations of change .
 
-![FileStructure](./FileStructure.png)
+![FileStructure](./documentation_elements/FileStructure.png)
 
 As seen above, stage_01_load_save.py , stage_02_prepare_dataset.py , stage_03_train.py 
 are the stages of the DAG or the DVC pipeline. yaml files such as dvc.yaml , params.yaml (**This file Contains all the Parameter which are needed to perform experiments on Training Pipline via DVC Studio**) and config.yaml(**This file contains all the configuration for training pipeline**) carries the major mandatory configurations. dvc.yaml being the control file here with all the Stage details like follows :
 
-![DVC config](./dvc_config.png)
+![DVC config](./documentation_elements/dvc_config.png)
 
 The all_utils.py can be seen as a collection of operational python functions which is such that it is modular and reusable which constitutes File operations etc
 
@@ -144,14 +144,14 @@ configurations are in place with the same sequence.
 ### STEP 08- Push as the Github Event: 
 Github listens to Push as an Event by the github workflow .This then starts the pipeline defined in the workflow as can be seen below in the Actions tab
 
-![Actions](./Actions.png)
+![Actions](./documentation_elements/Actions.png)
 The configured DVC stages are executed now one after the other in a EC2( Ubuntu 18 OS) configured instance (our case) else if the instance is not configured then github runs these on a spot instance internally and after the completion of the entire pipeline ,it also cleans up the resources utilized leaving us with only the Metrics and Best model saved.
 
 As mentioned before, the order of execution of stages can be seen below:
-![ActionSequence](./training_sequence.png)
+![ActionSequence](./documentation_elements/training_sequence.png)
 
 Detailed logs of the same can also be found by clicking the step: Now as seen below, the training starts and finishes
-![ActionSequence](./training.png)
+![ActionSequence](./documentation_elements/training.png)
 
 Logs of custom level (info,debug,error) can also be customized and accessed from the EC2 instance as well if we are using a dedicated instance and not the spot instance of Github.
 
@@ -160,7 +160,7 @@ Logs of custom level (info,debug,error) can also be customized and accessed from
 DVC Studio - [DVC Studio](https://studio.iterative.ai)
 This helps us in ML experiment tracking, visualization, and collaboration(While a team of developers work with different sets of experiments).DVC Studio does bookkeeping automatically too. See below: 
 
-![DVC Studio ](./dvc_studio.jpeg)
+![DVC Studio ](./documentation_elements/dvc_studio.jpeg)
 
 Since DVC Studio integrates with github smoothly, we can review and cherry pick each commit related to the experiments and this gives a whole lot of flexibility.
 
@@ -168,7 +168,7 @@ Since DVC Studio integrates with github smoothly, we can review and cherry pick 
 wandb  -Weights and Biases  [Wandb](https://wandb.ai/site)
 Although, DVC Studio This helps us in ML experiment tracking, visualization, and collaboration and best models if used ,
 Weights and Biases(wandb) makes it even more easier by recording evaluation metrices and providing insights with plots.
-![Evaluation](./wandb_dashboard.jpeg)
+![Evaluation](./documentation_elements/wandb_dashboard.jpeg)
 
 
 
@@ -176,9 +176,9 @@ Weights and Biases(wandb) makes it even more easier by recording evaluation metr
 wandb  -Weights and Biases  [Wandb](https://wandb.ai/site)
 Although, DVC Studio This helps us in ML experiment tracking, visualization, and collaboration and best models if used ,
 Weights and Biases(wandb) makes it even more easier by recording evaluation metrices and providing insights with plots.
-![Evaluation](./wandb_dashboard.jpeg)
+![Evaluation](./documentation_elements/wandb_dashboard.jpeg)
 As can be seen below are the best weights we have managed obtain on the different experiments .This is a very useful feature as finding the best weights can sometimes be a hassle.
-![Evaluation](./Final_Best_Weights.png)
+![Evaluation](./documentation_elements/Final_Best_Weights.png)
 
 
 
@@ -188,7 +188,7 @@ When all the steps are finished, the last event in the cml workflow is executed 
 cml-send-comment report.md 
 ```  
 When this happens, the message notification will pop on the user banner as you can see.
-![Evaluation](./Comment_pop_up.jpeg)
+![Evaluation](./documentation_elements/Comment_pop_up.jpeg)
 
 The complete Training logs can also be found in report.md  as we have configured the below steps in the cml workflow file (ci-cd.yaml)
 ```bash
@@ -196,7 +196,7 @@ echo "## Training Logs" >> report.md
 cat logs/running_logs.log >> report.md
 ```  
 See below: 
-![Evaluation](./Training_Logs.jpeg)
+![Evaluation](./documentation_elements/Training_Logs.jpeg)
 
 
 
