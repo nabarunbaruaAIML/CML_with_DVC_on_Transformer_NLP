@@ -9,8 +9,7 @@ Nabarun Barua
 
 Arjun Kumbakkara 
 - [Git](https://github.com/arjunKumbakkara)
-- [LinkedIn](hhttps://www.linkedin.com/in/arjunkumbakkara/)
-
+- [LinkedIn](https://www.linkedin.com/in/arjunkumbakkara/)
 
 ## Synopsis:
 Main idea of this project is to explain how CML can be implemented in an NLP Project therefore main focus of this Project is to explain how CML can be implemented. We assume that user is well verse in 🤗 Transformers , DVC & Weights&Biases (Wandb) Implementations.
