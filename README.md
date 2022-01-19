@@ -164,7 +164,8 @@ dvc init
 dvc repro
 ```
 This can be used to run the pipeline with out the CML enabled github action.This will also fulfill the entire pipeline.
-However, in that case, the code command needs to be run from inside the code base on an instance say Ec2 or a local linux/win system.
+However, in that case, the code command needs to be run from inside the code base on an instance say Ec2 or a local linux/win system with an appropriate GPU.
+If this needs to be done on CPU, make sure to update the transformer dependency in the requirements.txt to a cpu version.(please refer to the official document)
 
 
 ### STEP 05- Start EC2 Instance 
