@@ -3,12 +3,11 @@
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FnabarunbaruaAIML%2FCML_with_DVC_on_Transformer_NLP&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
 
 ## Authors
-## Nabarun Barua 
-- [Git](https://github.com/nabarunbaruaAIML)
-- [LinkedIn](https://www.linkedin.com/in/nabarun-barua-aiml-engineer/)
-## Arjun Kumbakkara 
-- [Git](https://github.com/arjunKumbakkara)
-- [LinkedIn](hhttps://www.linkedin.com/in/arjunkumbakkara/)
+### Nabarun Barua 
+- [Git](https://github.com/nabarunbaruaAIML)/[LinkedIn](https://www.linkedin.com/in/nabarun-barua-aiml-engineer/)
+### Arjun Kumbakkara 
+- [Git](https://github.com/arjunKumbakkara)/[LinkedIn](https://www.linkedin.com/in/arjunkumbakkara/)
+
 
 
 ## Synopsis:
