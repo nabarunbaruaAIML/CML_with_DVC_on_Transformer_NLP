@@ -3,13 +3,13 @@
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FnabarunbaruaAIML%2FCML_with_DVC_on_Transformer_NLP&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
 
 ## Authors
-Nabarun Barua 
+## Nabarun Barua 
 - [Git](https://github.com/nabarunbaruaAIML)
 - [LinkedIn](https://www.linkedin.com/in/nabarun-barua-aiml-engineer/)
-
-Arjun Kumbakkara 
+## Arjun Kumbakkara 
 - [Git](https://github.com/arjunKumbakkara)
-- [LinkedIn](https://www.linkedin.com/in/arjunkumbakkara/)
+- [LinkedIn](hhttps://www.linkedin.com/in/arjunkumbakkara/)
+
 
 ## Synopsis:
 Main idea of this project is to explain how CML can be implemented in an NLP Project therefore main focus of this Project is to explain how CML can be implemented. We assume that user is well verse in 🤗 Transformers , DVC & Weights&Biases (Wandb) Implementations.
@@ -88,7 +88,8 @@ The all_utils.py can be seen as a collection of operational python functions whi
 
 
 ### Architecture:
-![Architecture](./documentation_elements/overall.jpg)
+![Architecture](./documentation_elements/overallarch.jpg)
+
 The architecture of this entire project is broadly divided into three 1. Training 2. Deployment and 3. Retraining
 However the architecture pertinent to this repository can be seen in the below sections.
 
@@ -101,7 +102,10 @@ Here the data is loaded from the S3 bucket and tockenization is done.
 Here the train test splitting , preparation of data for AutoTokenizer is done.
 3.Training the Model (stage_03_train.py)
 Here the model is training with the needed hyperparameters and Callbacks 
+
+
 ![Training Pipeline](./documentation_elements/training_architecture.jpg)
+
 
 ## Now follow below steps for kickstarting the project:
 
@@ -238,6 +242,8 @@ See below:
 ##  Dockerized Container Application clusters with Kubernetes orchestration 
 
 ![Deployment Pipeline](./documentation_elements/deployment_architecture.jpg)
+
+
 The Architecture will be as above for the repository that follows
 
 Follow this Repository for updates: 
