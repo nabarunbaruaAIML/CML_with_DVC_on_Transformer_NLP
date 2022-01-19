@@ -3,11 +3,12 @@
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FnabarunbaruaAIML%2FCML_with_DVC_on_Transformer_NLP&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
 
 ## Authors
-### 1.Nabarun Barua 
-- [Git](https://github.com/nabarunbaruaAIML) / [LinkedIn](https://www.linkedin.com/in/nabarun-barua-aiml-engineer/)
-### 2.Arjun Kumbakkara 
-- [Git](https://github.com/arjunKumbakkara) / [LinkedIn](https://www.linkedin.com/in/arjunkumbakkara/)
-
+## Nabarun Barua 
+- [Git](https://github.com/nabarunbaruaAIML)
+- [LinkedIn](https://www.linkedin.com/in/nabarun-barua-aiml-engineer/)
+## Arjun Kumbakkara 
+- [Git](https://github.com/arjunKumbakkara)
+- [LinkedIn](hhttps://www.linkedin.com/in/arjunkumbakkara/)
 
 
 ## Synopsis:
@@ -95,10 +96,13 @@ However the architecture pertinent to this repository can be seen in the below s
 
 ### Stages in DVC?
 In this Training Pipeline , We have three major Stages linearly arranged.
+
 1.Load and Save Data (stage_01_load_save.py)  : 
 Here the data is loaded from the S3 bucket and tockenization is done.
+
 2.Preparation of Dataset (stage_02_prepare_dataset.py)
 Here the train test splitting , preparation of data for AutoTokenizer is done.
+
 3.Training the Model (stage_03_train.py)
 Here the model is training with the needed hyperparameters and Callbacks 
 
