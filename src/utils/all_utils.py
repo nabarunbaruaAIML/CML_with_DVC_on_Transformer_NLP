@@ -1,7 +1,5 @@
 import pandas as pd
 import numpy as np
-#from transformers import AutoTokenizer
-
 import yaml
 import os
 import json
@@ -14,6 +12,9 @@ from datasets import Dataset
 from datasets import ClassLabel
 
 
+"""
+Method reads content of a JSON file.
+"""
 def read_json(path_to_json: str) -> dict:
     with open(path_to_json) as json_file:
         data = json.load(json_file)
@@ -21,28 +22,46 @@ def read_json(path_to_json: str) -> dict:
     return data
 
 
+"""
+Method reads content of a YAML file.
+"""
 def read_yaml(path_to_yaml: str) -> dict:
     with open(path_to_yaml) as yaml_file:
         content = yaml.safe_load(yaml_file)
     logging.info(f"yaml file: {path_to_yaml} loaded successfully")
     return content
 
+
+"""
+Method takes a list of directories and creates all of them and throws no error if they already exist.
+"""
 def create_directory(dirs: list):
     for dir_path in dirs:
         os.makedirs(dir_path, exist_ok=True)
         logging.info(f"directory is created at {dir_path}")
 
 
+"""
+Method used to save data to csv format.
+"""
 def save_local_df(data, data_path, index_status=False):
     data.to_csv(data_path, index=index_status)
     logging.info(f"data is saved at {data_path}")
 
 
+"""
+Method performs a straight json dump locally as reports.
+"""
 def save_reports(report: dict, report_path: str, indentation=4):
     with open(report_path, "w") as f:
         json.dump(report, f, indent=indentation)
     logging.info(f"reports are saved at {report_path}")
-    
+
+
+"""
+Method helps copy files from source to destination using a high level file operations library Shutil.
+This lists all files irrespective of the file extensions
+"""
 def copy_file(source_download_dir, local_data_dir):
     list_of_files = os.listdir(source_download_dir)
     N = len(list_of_files)
@@ -56,6 +75,12 @@ def copy_file(source_download_dir, local_data_dir):
     #     src = os.path.join(source_download_dir, file)
     #     dest = os.path.join(local_data_dir, file)
     #     shutil.copy(src, dest)
+
+
+"""
+Method helps copy files from source to destination using a high level file operations library Shutil.
+This has a variation which is a filter for ".csv" file.
+"""
 def copy_file_csv(source_download_dir, local_data_dir):
     list_of_files =[ listfile for listfile in os.listdir(source_download_dir) if listfile.endswith('.csv') ] 
     N = len(list_of_files)
@@ -69,6 +94,13 @@ def copy_file_csv(source_download_dir, local_data_dir):
     #     src = os.path.join(source_download_dir, file)
     #     dest = os.path.join(local_data_dir, file)
     #     shutil.copy(src, dest)
+
+
+"""
+Method helps copy files from S3 bucket to local defined directory.
+We obtain an s3 object using which the bucket directory is listed and the needed files are downloaded and written
+locally
+"""
 def copy_file_from_S3(s3,S3_location, local_data_dir):
     # print('S3 load start')    
     obj = s3.Bucket(S3_location)
@@ -87,16 +119,30 @@ def copy_file_from_S3(s3,S3_location, local_data_dir):
         logging.info(f"Copying File from S3 to {dest} Completed! Succefully")
         
         # print(f"Copying File from S3 to {dest} Completed! Succefully")
-    
+
+
+
+
+
+"""
+Method  generates ASC time stamps
+"""
 def get_timestamp(name):
     timestamp = time.asctime().replace(" ", "_").replace(":", "_")
     unique_name = f"{name}_at_{timestamp}"
     return unique_name
 
+
+"""
+Deprecated:
+This is a previously used method in method "read_data" to read and tokenize data. 
+"""
 def get_input_ids(df,tokeniser,padding,max_length,truncation,stop_words=None):
     df = df.tolist()
     output = tokeniser(text=df , truncation=truncation,padding =padding,max_length=max_length)
     return output
+
+    #DeprecatedCode:-------------------------------------------------------------------------------
     # inp_ids = []
     # attension_mask= []
     # for i in df:
@@ -105,6 +151,11 @@ def get_input_ids(df,tokeniser,padding,max_length,truncation,stop_words=None):
     #     attension_mask.append(output['attention_mask'])
     # return inp_ids,attension_mask
 
+
+"""
+Deprecated:
+This is a previously used method to read and tokenize data. However, this is a very hefty function on the memory.
+"""
 def read_data(string,tokenizer,padding,max_length,truncation,stop_words=None):
     # json = {}
     df = pd.read_csv(string)
@@ -124,6 +175,12 @@ def read_data(string,tokenizer,padding,max_length,truncation,stop_words=None):
     logging.info(f"Read Completed and Tokenise Succefully")
     return json,id2label,label2id,label_num,Label_set
 
+
+"""
+In Use:
+Method reads the dataset, tokenizes it , maps it with labels and returns
+ dataset,id2label,label2id,label_num,Label_set
+"""
 def read_dataset(string,tokenizer,padding,max_length,truncation ):
     # json = {}
     df = pd.read_csv(string)
@@ -141,10 +198,17 @@ def read_dataset(string,tokenizer,padding,max_length,truncation ):
             dataset= dataset.rename_column(v.lower(),'labels')
         if(i==1):
             dataset= dataset.rename_column(v.lower(),'text')
-    
+    """
+    This is an inner function which has access to all local variables initiated by the outer enclosing function.
+    This is the brute force iterative method.
+    """
     def labelMap(example):
         # example['labels']=label2id[example['labels']]
         return {'labels':[label2id[i] for i in example['labels'] ] }#example
+    """
+    This is an inner function which has access to all local variables initiated by the outer enclosing function.
+    This can be the tokenizer from the transformers or a defined function.Its the tokenizer from transformers here.
+    """
     def tokenize_function(example):
         return tokenizer(example["text"], truncation=truncation,padding =padding,max_length=max_length)
     dataset = dataset.map(labelMap, batched=True)
@@ -153,14 +217,19 @@ def read_dataset(string,tokenizer,padding,max_length,truncation ):
     dataset = dataset.align_labels_with_mapping(label2id, "labels")
     dataset = dataset.map(tokenize_function, batched=True)
     # dataset = dataset_new.train_test_split(test_size=0.1)
-    
-    # This Column could be kept as it is and Trainer & Model would be have takecare, it's been remove to save memory
+    """
+    This below Column could be kept as it is and Trainer & Model would  have to takecare, it's removed to save memory .
+    """
     dataset = dataset.remove_columns(['text'])  
     # dataset.set_format('torch')
     logging.info(f"Read Completed and Tokenise Succefully")
     
     return dataset,id2label,label2id,label_num,Label_set
 
+
+"""
+Method saves the designated Json into a file locally.
+"""
 def save_json(path, data):
     with open(path, "w") as f:
         json.dump(data, f, indent=4)

@@ -1,4 +1,4 @@
-### dependency
+### dependencies (Deprecated)-------------------------------------------------------------------------------------------
 
 # aiohttp==3.8.0
 # aiohttp-retry==2.4.6
@@ -114,6 +114,9 @@
 # zc.lockfile==2.0
 # zipp==3.6.0
 # psutil
+
+
+#Dependencies (Newly Added)----------------------------------------------------------------------------------------------------
 tqdm
 # dvc
 pandas
@@ -134,5 +137,6 @@ python-dotenv
 wandb
 s3fs
 
+#Setup Step:Below tags enable the overall installation of the packages inclusive of the local packages or imports.
 ## local packages -
 -e . # << uncomment this to install from setup.py

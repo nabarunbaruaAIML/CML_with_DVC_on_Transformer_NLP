@@ -13,18 +13,27 @@ logging_str = "[%(asctime)s: %(levelname)s: %(module)s]: %(message)s"
 log_dir = "logs"
  
 os.makedirs(log_dir, exist_ok=True)
+"""
+The logging configurations are set here like logging level ,file name etc.
+"""
 logging.basicConfig(
     filename=os.path.join("logs", 'running_logs.log'), 
     level=logging.INFO, 
     format="[%(asctime)s: %(levelname)s: %(module)s]: %(message)s",
     filemode="a"
     )
+"""
+>> 2 >> This is Stage Two where prepare the Data for the training.
+"""
 STAGE = 'Stage 02'
+
+
+
 def main(config_path):
     config = read_yaml(config_path.config)
     local_data_dirs= config['local_data_dirs'][0]
     
-    # Configuration Initialization
+    """ Configuration Initialization"""
     artifacts = config['artifacts']
     local_data_dirs_filename = os.path.join(local_data_dirs ,artifacts['local_data_dirs_filename'])
     artifacts_dir = artifacts['ARTIFACTS_DIR']
@@ -45,10 +54,10 @@ def main(config_path):
     
     LABEL_NUM_filename =  artifacts['LABEL_NUM']  
     LABEL_NUM_filename_path = os.path.join(DownloadData_path ,LABEL_NUM_filename)
-    
     create_directory([base_model_path,DownloadData_path,Dataset_path])
     
-    # Parameter Initialization
+
+    """ Parameter Initialization"""
     params = read_yaml(config_path.params)
     Data = params['Dataset']
     test_size = Data['test_size']
@@ -60,7 +69,8 @@ def main(config_path):
     truncation =  model['truncation']
     # secret = read_yaml(config_path.secret)
     
-    # Prepareing and Saving Dataset
+    """ Prepareing and Saving Dataset"""
+    """ We are using AutoTokenizer a Auto class from Hugginface Transformers(https://huggingface.co/docs/transformers/model_doc/auto#transformers.AutoTokenizer)"""
     tokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=use_fast,cache_dir = base_model_path )
     # json,id2label,label2id,label_num,Label_set = read_data(local_data_dirs_filename,tokenizer,padding,max_length,truncation)
     dataset,id2label,label2id,label_num,Label_set = read_dataset(local_data_dirs_filename,tokenizer,padding,max_length,truncation)
@@ -82,10 +92,16 @@ def main(config_path):
     # dataset = load_dataset('csv', data_files='./artifacts/Data/Data.csv')
     # datasets.load_from_disk  DownloadData_path
     # dataset.save_to_disk  DownloadData_path
-    # https://huggingface.co/docs/datasets/package_reference/main_classes.html#datasets.Dataset.save_to_disk
-    # https://huggingface.co/docs/datasets/package_reference/loading_methods.html#datasets
-    
+"""
+References:
+https://huggingface.co/docs/datasets/package_reference/main_classes.html#datasets.Dataset.save_to_disk
+https://huggingface.co/docs/datasets/package_reference/loading_methods.html#datasets
+"""
 
+
+"""
+   Stage 2 is started from here.
+"""
 if __name__ == '__main__':
     args = argparse.ArgumentParser()
     args.add_argument("--config", "-c", default="configs/config.yaml")

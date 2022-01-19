@@ -12,6 +12,11 @@ from transformers import AutoModelForSequenceClassification, TrainingArguments, 
 from dotenv import load_dotenv
 import wandb
 
+"""
+This method  reads key-value pairs from a .env file and can set them as environment variables
+for example : os.getenv('AWS_SECRET_ACCESS_KEY')
+Properties like AWS_SECRET_ACCESS_KEY , AWS_ACCESS_KEY_ID  are set in the environment for example these are set in Github
+"""
 load_dotenv()
 
 
@@ -19,22 +24,30 @@ logging_str = "[%(asctime)s: %(levelname)s: %(module)s]: %(message)s"
 log_dir = "logs"
 # create_directory([log_dir])
 os.makedirs(log_dir, exist_ok=True)
+"""
+The logging configurations are set here like logging level ,file name etc.
+"""
 logging.basicConfig(
     filename=os.path.join("logs", 'running_logs.log'), 
     level=logging.INFO, 
     format="[%(asctime)s: %(levelname)s: %(module)s]: %(message)s",
     filemode="a"
     )
-STAGE = 'Stage 04'
+
+"""
+>> 3 >> This is Stage Two where we train the model.
+"""
+STAGE = 'Stage 03'
 def main(config_path):
     
     config = read_yaml(config_path.config)
     params = read_yaml(config_path.params)
+    """Wandb Integration starts here with the API KEY"""
     Wandb_API= os.getenv('WANDB_API_KEY')
     
     wandb.login(key=Wandb_API)
     
-    # Parameter Initialization
+    """ Parameter Initialization"""
     model = params['model']
     model_name = model['base_model']
     use_fast =  model['use_fast']
@@ -42,7 +55,7 @@ def main(config_path):
     max_length =  model['max_length']
     truncation =  model['truncation']
     
-    # Configuration Initialization
+    """ Configuration Initialization"""
     artifacts = config['artifacts']
     artifacts_dir = artifacts['ARTIFACTS_DIR']
     best = artifacts['Best_Dir']
@@ -67,14 +80,14 @@ def main(config_path):
     Jdata = json.load(Jfile)
     Jfile.close()
     
-    # Loading Dataset
+    """ Loading Dataset"""
     dataset = load_from_disk(Dataset_path) #('artifacts/Data/Dataset')
     
     # dataset = load_from_disk('artifacts/Data/Dataset/T1')
     # dataset.set_format(type='torch')
     logging.info(f"Loaded Dataset from path {Dataset_path} Succefully and Dataset = {dataset}")
     
-    # Loading Tokenizer
+    """Loading Tokenizer"""
     tokenizer = AutoTokenizer.from_pretrained(model_name ,cache_dir =  base_model_path, use_fast=use_fast)
     logging.info(f"Loaded Tokenizer of Model {model_name} Succefully !")
     
@@ -82,13 +95,13 @@ def main(config_path):
     ID2Label = read_json(ID2L_path)
     config = AutoConfig.from_pretrained(model_name, label2id=Label2ID, id2label=ID2Label,  num_labels=Jdata['Number_of_Label'])
     
-    # Loading Model
+    """ Loading Model"""
     Transformer_Model = AutoModelForSequenceClassification.from_pretrained(model_name ,cache_dir =  base_model_path, config=config)
     logging.info(f"Loaded Model {model_name} Succefully !")
     
     data_collator = DataCollatorWithPadding(tokenizer,padding = padding, max_length= max_length)
     
-    # Parameter Initialization
+    """ Hyper Parameter and Callback Initialization"""
     TrainingArgument = params['TrainingArgument']
     metric_name = TrainingArgument['metric_name']
     Output_Dir = TrainingArgument['Output_Dir']
@@ -113,13 +126,14 @@ def main(config_path):
     metric_loaded = load_metric(metric_name)
     
     logging.info(f"Loaded Metric {metric_loaded} Succefully !")
-    
+
+    """ Method computes the Evaluation Metric """
     def compute_metrics(eval_pred):
         predictions, labels = eval_pred
         predictions = np.argmax(predictions, axis=1)
     
         return metric_loaded.compute(predictions=predictions, references=labels)
-    # Model Argument and Training
+    """  Model Argument and Training"""
     args = TrainingArguments(
                                 output_dir= Output_Dir,
                                 evaluation_strategy = Evaluation_Strategy,
@@ -147,6 +161,7 @@ def main(config_path):
                         tokenizer=tokenizer,
                         compute_metrics=compute_metrics
                     )
+    """Callbacks Added : EarlyStop"""
     trainer.add_callback(EarlyStoppingCallback(early_stopping_patience= Early_Stopping_patience))
     # global_step, train_loss, out_metrics = trainer.train()
     global_step, train_loss, out_metrics= trainer.train()
@@ -160,6 +175,7 @@ def main(config_path):
     logging.info(f"Evalution Completed with Evalution Data {evalu}")
     
 
+"""Marks the starting point of Stage >> 3 >>"""
 if __name__ == '__main__':
     args = argparse.ArgumentParser()
     args.add_argument("--config", "-c", default="configs/config.yaml")
