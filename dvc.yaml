@@ -1,4 +1,15 @@
-# add stages here 
+# Purpose: 
+#This yaml file has a standard name "dvc.yaml" and hence cant be changed.This is where
+##the DAG principle manifests into dependent chaining. The order of execution which is essentially what the pipeline is maintained here.
+
+#The flow seen below is a hard coded execution order and no conditional pipelining is available at the moment. However, multiple dvc files with 
+##the desired flows can be configured and maintained with the code and a script shall be used to rename the needed flow to "dvc.yaml" so that it is employed. 
+
+#stage--> The Name of the stage is customizable 
+#deps --> Dependencies: The stage file itself and other dependent files(configs or utils) are added here.  
+#params--> Parameters from the params.yaml
+#outs--> Output files that are involved.
+
 stages:
   stage_01_load_save:
     cmd: python src/stage_01_load_save.py --config=configs/config.yaml --params=params.yaml
@@ -70,6 +81,12 @@ stages:
       - artifacts/Sentence-Classif   
       - artifacts/Best_Model  
       - wandb  
+
+
+
+
+
+#Deprecated Code: (Before jan10th,2022)----------------------------------------------------------------------------------
   # stage_03_dataset_split:
   #   cmd: python src/stage_03_train_test_split_dataset.py --config=configs/config.yaml --params=params.yaml
   #   deps:

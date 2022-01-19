@@ -1,10 +1,14 @@
-# add ci-cd steps here
+#Purpose_Of_File: This is where the github action workflow is defined. Here we define the hook event(push, rebase,deploy etc) and the 
+##following events.
+
+#Adding ci-cd steps here
 name: Training-Transformer-Model
 on: 
   push: # Use Deploy instead of Push to make it Productionizable 
     branches:
-      - main
-jobs:
+      - main #This is the branch needed .
+jobs: #Below this section marks the different jobs
+  # Deprecated Configuration------------------------------------------------------------------------------------
   # deploy-runner:
   #   runs-on: ubuntu-latest
   #   steps:
@@ -22,6 +26,7 @@ jobs:
   #         --cloud-region=us-east-1 \
   #         --cloud-type=g4dn.xlarge \
   #         --labels=cml-runner
+  #-------------------------------------------------------------------------------------------------------------
   train-model:
     # needs: deploy-runner
     runs-on: [self-hosted,cml,gpu]
@@ -43,12 +48,12 @@ jobs:
         WANDB_API_KEY: ${{ secrets.WANDB_API_KEY}}
         WANDB_LOG_MODEL: ${{ secrets.WANDB_LOG_MODEL }} 
         WANDB_WATCH: ${{ secrets.WANDB_WATCH }}
-      run: |
+      run: |      #This denotes all branches
         apt-get update -y
         pip install --upgrade pip
         pip install -U -r requirements.txt
         
-        # DVC stuff
+        # DVC stuf
         git fetch --prune
         dvc repro
        

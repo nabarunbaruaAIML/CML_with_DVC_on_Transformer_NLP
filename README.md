@@ -2,6 +2,17 @@
 
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FnabarunbaruaAIML%2FCML_with_DVC_on_Transformer_NLP&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
 
+## Authors
+Nabarun Barua 
+- [Git](https://github.com/nabarunbaruaAIML)
+- [LinkedIn](https://www.linkedin.com/in/nabarun-barua-aiml-engineer/)
+
+Arjun Kumbakkara 
+- [Git](https://github.com/arjunKumbakkara)
+- [LinkedIn](hhttps://www.linkedin.com/in/arjunkumbakkara/)
+
+
+## Synopsis:
 Main idea of this project is to explain how CML can be implemented in an NLP Project therefore main focus of this Project is to explain how CML can be implemented. We assume that user is well verse in 🤗 Transformers , DVC & Weights&Biases (Wandb) Implementations.
 
 Below are the online resource used for building this Project.
@@ -77,6 +88,22 @@ are the stages of the DAG or the DVC pipeline. yaml files such as dvc.yaml , par
 The all_utils.py can be seen as a collection of operational python functions which is such that it is modular and reusable which constitutes File operations etc
 
 
+### Architecture:
+![Architecture](./documentation_elements/overall.jpg)
+The architecture of this entire project is broadly divided into three 1. Training 2. Deployment and 3. Retraining
+However the architecture pertinent to this repository can be seen in the below sections.
+
+
+### Stages in DVC?
+In this Training Pipeline , We have three major Stages linearly arranged.
+1.Load and Save Data (stage_01_load_save.py)  : 
+Here the data is loaded from the S3 bucket and tockenization is done.
+2.Preparation of Dataset (stage_02_prepare_dataset.py)
+Here the train test splitting , preparation of data for AutoTokenizer is done.
+3.Training the Model (stage_03_train.py)
+Here the model is training with the needed hyperparameters and Callbacks 
+![Training Pipeline](./documentation_elements/training_architecture.jpg)
+
 ## Now follow below steps for kickstarting the project:
 
 ### STEP 01- Create local repository after cloning the repository Newly created after using the Template Repo. We can use git bash for cloning if using windows system. If Linux/Mac OS then Terminal will work.
@@ -107,6 +134,14 @@ After Executing above command please comment the DVC in the requirements.txt fil
 ```bash
 dvc init
 ```
+
+Optionally, use 
+```bash
+dvc repro
+```
+This can be used to run the pipeline with out the CML enabled github action.This will also fulfill the entire pipeline.
+However, in that case, the code command needs to be run from inside the code base on an instance say Ec2 or a local linux/win system.
+
 ### STEP 05- Start EC2 Instance 
 
 Since we are not using aws EC2 Spot instance therefore we are not creating instance in ci-cd.yml file. Therefore we need to have a GPU enabled EC2 Instance and in the terminal of EC2 execute following command.
@@ -125,7 +160,8 @@ docker run --name myrunner -d --gpus all \
     dvcorg/cml-py3
 ```
 
-Keep the EC2 Instance Running so that we can use it in GitHub Action. Once Workflow is finished, you can either shutdown or terminate the EC2 Instance. 
+Keep the EC2 Instance Running so that we can use it in GitHub Action. Once Workflow is finished, you can either shutdown or terminate the EC2 Instance.
+Also, the same instance which is latched with the github repository can be found listed as a runner in the cloud runner section of Github.
 
 ### STEP 06- commit and push the changes to the remote repository
 ```bash
@@ -201,6 +237,12 @@ See below:
 
 # W.I.P : Deployment Pipeline will shortly follow this repository
 ##  Dockerized Container Application clusters with Kubernetes orchestration 
+
+![Deployment Pipeline](./documentation_elements/deployment_architecture.jpg)
+The Architecture will be as above for the repository that follows
+
+Follow this Repository for updates: 
+![Dockerized_CML_Application_On_KubernetesCluster](https://github.com/arjunKumbakkara/NLP_CML_Deployment_Pipeline_On_Kubernetes)
 
 
 

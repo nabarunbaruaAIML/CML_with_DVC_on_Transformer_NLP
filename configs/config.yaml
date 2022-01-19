@@ -1,5 +1,6 @@
-# It contains all the configs required in the project
+#Purpose_of_File: This file lists all configuration parameters.
 
+# It contains all the configs required in the project
 artifacts:
   DOWNLOAD_DATA_DIR: Data
   DOWNLOAD_DATA_NAME: Data.csv

@@ -1,4 +1,6 @@
-# This contains params to be used by the stages to train or predict
+#PURPOSE OF THE FILE : Externalized  normal parameters and hyperparameters of the model to be used by the stages to train or predict!
+#Choice of model ,padding , Learning rate , metric along with external directory etc
+
 model:
   base_model: albert-base-v2
   use_fast: True
@@ -11,7 +13,7 @@ Dataset:
   
 
   
-
+#Hyperparams and Callback parameters
 TrainingArgument:
   Output_Dir: artifacts/Sentence-Classif
   Evaluation_Strategy: epoch 
