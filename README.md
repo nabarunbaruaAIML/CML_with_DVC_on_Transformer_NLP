@@ -8,7 +8,7 @@
 - [LinkedIn](https://www.linkedin.com/in/nabarun-barua-aiml-engineer/)
 ## Arjun Kumbakkara 
 - [Git](https://github.com/arjunKumbakkara)
-- [LinkedIn](hhttps://www.linkedin.com/in/arjunkumbakkara/)
+- [LinkedIn](https://www.linkedin.com/in/arjunkumbakkara/)
 
 
 ## Synopsis:
@@ -94,20 +94,38 @@ The architecture of this entire project is broadly divided into three 1. Trainin
 However the architecture pertinent to this repository can be seen in the below sections.
 
 
-### Stages in DVC?
+### Stages and standard Files in DVC:
+
+#### Stages:
 In this Training Pipeline , We have three major Stages linearly arranged.
 
 1.Load and Save Data (stage_01_load_save.py)  : 
 Here the data is loaded from the S3 bucket and tockenization is done.
 
 2.Preparation of Dataset (stage_02_prepare_dataset.py)
-Here the train test splitting , preparation of data for AutoTokenizer is done.
+Here the train test splitting , pre-processing of data for model training.
 
 3.Training the Model (stage_03_train.py)
 Here the model is training with the needed hyperparameters and Callbacks 
-
+Finally, the model weights will be saved in the wandb (weight and Biases).Which is can fetched using wandb api.
+(please refer the respective documentation for more details)
 
 ![Training Pipeline](./documentation_elements/training_architecture.jpg)
+
+
+#### Standard Files: 
+
+1. dvc.yaml  - This acts as the fulcrum file which organizes the stages defined into it linearly or otherwise . tags 'deps'(These are the dependent files to that stage),'params'(All params from params.yaml pertinent to this stage),'outs'(The output files after the stage runs.)
+dvc.yaml basically houses the DAG relationship of the constituent stages.
+
+2. params.yaml - This file is where all the configurable parameters are housed which needs to be changed on the go.This helps extensively in experiment management.ie, If you login via DVC studio , the params on this file alone can be changed and the pipeline can be run as experiments.
+
+3. config.yaml - Configurations such as directories,filenames etc are housed here for on the fly changes.
+
+4. ci-cd.yml   - This is where the github action workflow is defined. Here we define the hook event(push, rebase,deploy etc) and the following chain of events .The highlight being its capability to register a cloud runner instance from all major cloud service providers (AWS,Azure,GCP,Digital Ocean or any custom cloud instance) only with API access keys configured as environment variables. Custom string of commands can also be configured to be run  under the run section of the file for each job. 
+
+5. all_utils.py -  This is a collection of all utility methods such as high level file operations using Shutil , loading, parsing , dumping  of json, yaml etc. 
+
 
 
 ## Now follow below steps for kickstarting the project:
@@ -141,12 +159,13 @@ After Executing above command please comment the DVC in the requirements.txt fil
 dvc init
 ```
 
-Optionally, use 
+#### Local Testing: 
 ```bash
 dvc repro
 ```
 This can be used to run the pipeline with out the CML enabled github action.This will also fulfill the entire pipeline.
 However, in that case, the code command needs to be run from inside the code base on an instance say Ec2 or a local linux/win system.
+
 
 ### STEP 05- Start EC2 Instance 
 
@@ -250,7 +269,7 @@ See below:
 The Architecture will be as above for the repository that follows
 
 Follow this Repository for updates: 
-![Dockerized_CML_Application_On_KubernetesCluster](https://github.com/arjunKumbakkara/NLP_CML_Deployment_Pipeline_On_Kubernetes)
+[Dockerized_CML_Application_On_KubernetesCluster](https://github.com/arjunKumbakkara/NLP_CML_Deployment_Pipeline_On_Kubernetes)
 
 
 
