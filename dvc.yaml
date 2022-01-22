@@ -81,6 +81,22 @@ stages:
       - artifacts/Sentence-Classif   
       - artifacts/Best_Model  
       - wandb  
+  stage_04_Onnx:
+    cmd: python src/stage_04_onnx.py --config=configs/config.yaml --params=params.yaml
+    deps:
+      - src/stage_04_onnx.py
+      - src/utils/all_utils.py
+      - configs/config.yaml
+      - artifacts/Best_Model
+    params:
+      - model.base_model
+      - model.use_fast
+      - Onnx.feature
+      - Onnx.opset
+      - Onnx.atol
+    outs:
+      - artifacts/Onnx_Output/model.onnx 
+       
 
 
 
