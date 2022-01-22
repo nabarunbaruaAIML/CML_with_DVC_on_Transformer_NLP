@@ -110,6 +110,11 @@ Here the model is training with the needed hyperparameters and Callbacks
 Finally, the model weights will be saved in the wandb (weight and Biases).Which is can fetched using wandb api.
 (please refer the respective documentation for more details)
 
+4.Converting Model to Onnx (Stage_04_Onnx.py)
+Here we are converting our weights to Onnx runtime framework. Standard Transformer Onnx convertion is available but we feel that it's not available for Sequence-Classification therefore we used our own logic to convert weights to Onnx runtime framework. 
+
+We took reference for our development from this [Notebook by txtai](https://colab.research.google.com/github/neuml/txtai/blob/master/examples/18_Export_and_run_models_with_ONNX.ipynb#scrollTo=XMQuuun2R06J)
+
 ![Training Pipeline](./documentation_elements/training_architecture.jpg)
 
 
