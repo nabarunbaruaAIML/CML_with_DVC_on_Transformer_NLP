@@ -10,6 +10,9 @@ import boto3
 from datasets import load_dataset
 from datasets import Dataset
 from datasets import ClassLabel
+from collections import OrderedDict
+from transformers import AutoModel, AutoModelForQuestionAnswering, AutoModelForSequenceClassification, AutoTokenizer
+
 
 
 """
@@ -235,3 +238,40 @@ def save_json(path, data):
         json.dump(data, f, indent=4)
 
     logging.info(f"json file saved at: {path}")
+    
+def parameters( task):
+        """
+        Defines inputs and outputs for an ONNX model.
+        Args:
+            task: task name used to lookup model configuration
+        Returns:
+            (inputs, outputs, model function)
+        """
+
+        inputs = OrderedDict(
+            [
+                ("input_ids", {0: "batch", 1: "sequence"}),
+                ("attention_mask", {0: "batch", 1: "sequence"}),
+                ("token_type_ids", {0: "batch", 1: "sequence"}),
+            ]
+        )
+
+        config = {
+            "default": (OrderedDict({"last_hidden_state": {0: "batch", 1: "sequence"}}), AutoModel.from_pretrained),
+            # "pooling": (OrderedDict({"embeddings": {0: "batch", 1: "sequence"}}), lambda x: MeanPoolingOnnx(x, -1)),
+            "question-answering": (
+                OrderedDict(
+                    {
+                        "start_logits": {0: "batch", 1: "sequence"},
+                        "end_logits": {0: "batch", 1: "sequence"},
+                    }
+                ),
+                AutoModelForQuestionAnswering.from_pretrained,
+            ),
+            "sequence-classification": (OrderedDict({"logits": {0: "batch"}}), AutoModelForSequenceClassification.from_pretrained),
+        }
+
+        # Aliases
+        config["zero-shot-classification"] = config["sequence-classification"]
+
+        return (inputs,) + config[task]

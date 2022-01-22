@@ -32,3 +32,8 @@ TrainingArgument:
   report_to: wandb  # enable logging to W&B
   run_name: albert-base-v2_Run_DVC_2
   WANDB_PROJECT: Text_Classification
+
+Onnx:
+  feature: sequence-classification # default
+  opset: 12
+  atol: 0.0001

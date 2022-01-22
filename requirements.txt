@@ -136,6 +136,8 @@ sklearn
 python-dotenv
 wandb
 s3fs
+onnxruntime
+collection
 
 #Setup Step:Below tags enable the overall installation of the packages inclusive of the local packages or imports.
 ## local packages -

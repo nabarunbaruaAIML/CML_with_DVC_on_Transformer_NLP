@@ -25,7 +25,7 @@ artifacts:
 #   - path_to_data_1
 #   - path_to_data_1
 
-
+Onnx_Output: Onnx_Output
 local_data_dirs:
   - artifacts/Data
 

@@ -40,7 +40,7 @@ logging.basicConfig(
 STAGE = 'Stage 03'
 def main(config_path):
     
-    config = read_yaml(config_path.config)
+    configs = read_yaml(config_path.config)
     params = read_yaml(config_path.params)
     """Wandb Integration starts here with the API KEY"""
     Wandb_API= os.getenv('WANDB_API_KEY')
@@ -56,7 +56,7 @@ def main(config_path):
     truncation =  model['truncation']
     
     """ Configuration Initialization"""
-    artifacts = config['artifacts']
+    artifacts = configs['artifacts']
     artifacts_dir = artifacts['ARTIFACTS_DIR']
     best = artifacts['Best_Dir']
     Best_path = os.path.join(artifacts_dir,best) 
