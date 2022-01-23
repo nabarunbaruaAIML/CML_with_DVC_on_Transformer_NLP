@@ -131,9 +131,9 @@ def main(config_path):
         # print(dict(single ))
         # print(single)
         ort = {
-                'attention_mask': np.array(single['attention_mask']), 
-                'input_ids': np.array(single['input_ids']), 
-                'token_type_ids': np.array(single['token_type_ids'])
+                'attention_mask': np.array(single['attention_mask'], dtype=np.int64), 
+                'input_ids': np.array(single['input_ids'], dtype=np.int64), 
+                'token_type_ids': np.array(single['token_type_ids'], dtype=np.int64)
         }
         # print(ort)
         outputs = session.run(None, ort )
