@@ -114,10 +114,11 @@ def main(config_path):
             dataset= dataset.rename_column(v.lower(),'labels')
         if(i==1):
             dataset= dataset.rename_column(v.lower(),'text')
-    def tokenize_function(example):
-        return tokenizer(example["text"], return_tensors="np")   
+      
     """Loading Tokenizer"""
     tokenizer = AutoTokenizer.from_pretrained(Best_path ,cache_dir =  base_model_path, use_fast=use_fast)
+    def tokenize_function(example):
+        return tokenizer(example["text"], return_tensors="np",truncation=True,padding ='max_length',max_length=128) 
     logging.info(f"Loaded Tokenizer of Model {model_name} Succefully !")
     dataset1 = dataset.map(tokenize_function, batched=True,remove_columns= dataset.features)
     # tok_data = tokenizer(dataset['text'], return_tensors="np")
@@ -131,13 +132,13 @@ def main(config_path):
         # print(dict(single ))
         # print(single)
         ort = {
-                'attention_mask': np.array(single['attention_mask'], dtype=np.int64), 
-                'input_ids': np.array(single['input_ids'], dtype=np.int64), 
-                'token_type_ids': np.array(single['token_type_ids'], dtype=np.int64)
+                'attention_mask': np.array(single['attention_mask'], dtype=np.int64).reshape(1,128), 
+                'input_ids': np.array(single['input_ids'], dtype=np.int64).reshape(1,128), 
+                'token_type_ids': np.array(single['token_type_ids'], dtype=np.int64).reshape(1,128)
         }
         # print(ort)
         outputs = session.run(None, ort )
-        print(outputs[0] )
+        print(np.argmax(outputs[0] ,axis=1))
         if i==2:
             break
         
