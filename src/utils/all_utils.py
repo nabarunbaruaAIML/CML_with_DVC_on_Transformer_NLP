@@ -12,6 +12,12 @@ from datasets import Dataset
 from datasets import ClassLabel
 from collections import OrderedDict
 from transformers import AutoModel, AutoModelForQuestionAnswering, AutoModelForSequenceClassification, AutoTokenizer
+import onnx
+import onnxruntime
+from onnxruntime.quantization import quantize_dynamic, QuantType
+from onnxruntime.transformers.onnx_model import OnnxModel
+from onnxruntime import InferenceSession, SessionOptions
+import torch
 
 
 
@@ -275,3 +281,41 @@ def parameters( task):
         config["zero-shot-classification"] = config["sequence-classification"]
 
         return (inputs,) + config[task]
+
+def CompressModel(uncompress,compress):
+    model=onnx.load(uncompress)
+    onnx_model=OnnxModel(model)
+    output_path = compress#f"model_compressed.onnx"
+    count = len(model.graph.initializer)
+    same = [-1] * count
+    for i in range(count - 1):
+        if same[i] >= 0:
+            continue
+        for j in range(i+1, count):
+            if has_same_value(model.graph.initializer[i], model.graph.initializer[j]):
+                same[j] = i
+
+    for i in range(count):
+        if same[i] >= 0:
+            onnx_model.replace_input_of_all_nodes(model.graph.initializer[i].name, model.graph.initializer[same[i]].name)
+    onnx_model.update_graph()
+    onnx_model.save_model_to_file(output_path)
+    logging.info(f"Compressed the Onnx Model and Saved at {output_path}")
+
+"""This Function Checks if Two Nodes in Model has same weights"""    
+def has_same_value(val_one,val_two):
+      if val_one.raw_data == val_two.raw_data:
+          return True
+      else:
+          return False
+"""This Fucntion is Dynamically Quantizing the Model"""      
+def quantize_onnx_model(onnx_model_path, quantized_model_path):  
+    # onnx_opt_model = onnx.load(onnx_model_path)
+    quantize_dynamic(onnx_model_path,
+                     quantized_model_path,
+                     weight_type= QuantType.QInt8
+                    )
+    norm = 'ONNX full precision model size (MB):', os.path.getsize(onnx_model_path)/(1024*1024)
+    quant = 'ONNX quantized model size (MB):', os.path.getsize(quantized_model_path)/(1024*1024)
+    logging.info(norm)
+    logging.info(quant)

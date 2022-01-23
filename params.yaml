@@ -30,7 +30,7 @@ TrainingArgument:
   Early_Stopping_patience: 2
   Cuda: False
   report_to: wandb  # enable logging to W&B
-  run_name: albert-base-v2_Run_DVC_2
+  run_name: albert-base-v2_Run_DVC_4
   WANDB_PROJECT: Text_Classification
 
 Onnx:

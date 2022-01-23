@@ -136,6 +136,8 @@ sklearn
 python-dotenv
 wandb
 s3fs
+sympy
+onnx
 onnxruntime
 collection
 

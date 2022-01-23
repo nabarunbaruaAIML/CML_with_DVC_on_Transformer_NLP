@@ -6,7 +6,7 @@ import logging
 import json
 import numpy as np
 from datasets import load_from_disk,load_metric
-from src.utils.all_utils import read_yaml,read_json,parameters,create_directory
+from src.utils.all_utils import read_yaml,read_json,parameters,create_directory,has_same_value,quantize_onnx_model,CompressModel
 from transformers import AutoTokenizer,AutoConfig,TensorType
 from transformers.models.albert import AlbertOnnxConfig
 from transformers.onnx.features import FeaturesManager
@@ -18,6 +18,9 @@ import wandb
 from io import BytesIO
 from itertools import chain
 import torch
+import onnx
+from onnxruntime.transformers.onnx_model import OnnxModel
+from onnxruntime import InferenceSession, SessionOptions
 
 
 
@@ -74,10 +77,7 @@ def main(config_path):
     model = params['model']
     model_name = model['base_model']
     use_fast =  model['use_fast']
-    # padding =  model['padding']
-    # max_length =  model['max_length']
-    # truncation =  model['truncation']
-    
+        
     Onnx = params['Onnx']
     features = Onnx['feature']
     opset = Onnx['opset']
@@ -89,33 +89,15 @@ def main(config_path):
     artifacts_dir = artifacts['ARTIFACTS_DIR']
     best = artifacts['Best_Dir']
     Onnx_output_path = os.path.join(artifacts_dir,Onnx_output) 
-    Best_path = os.path.join(artifacts_dir,best) 
-     
-    # DownloadData =  artifacts['DOWNLOAD_DATA_DIR']
-    # DownloadData_path = os.path.join(artifacts_dir,DownloadData)   
-    # L2ID = artifacts['LABEL2ID']
-    # ID2L = artifacts['ID2LABEL']
-    # L2ID_path = os.path.join(DownloadData_path,L2ID)
-    # ID2L_path = os.path.join(DownloadData_path,ID2L)
-    
-    # LABEL_NUM_filename =  artifacts['LABEL_NUM']  
-    # LABEL_NUM_filename_path = os.path.join(DownloadData_path ,LABEL_NUM_filename)
-    # Jfile = open(LABEL_NUM_filename_path)
-    # Jdata = json.load(Jfile)
-    # Jfile.close()       
+    Best_path = os.path.join(artifacts_dir,best)       
     
     base_model_dir = artifacts['BASE_MODEL_DIR']
     base_model_path = os.path.join(artifacts_dir,base_model_dir )
-    
        
     """Loading Tokenizer"""
     tokenizer = AutoTokenizer.from_pretrained(Best_path ,cache_dir =  base_model_path, use_fast=use_fast)
     logging.info(f"Loaded Tokenizer of Model {model_name} Succefully !")
-    
-    # Label2ID = read_json(L2ID_path)
-    # ID2Label = read_json(ID2L_path)
-     
-    
+        
     """Weights & Baises Enviorment Variable Initialization"""
     """Used this Notebook for References: https://colab.research.google.com/github/neuml/txtai/blob/master/examples/18_Export_and_run_models_with_ONNX.ipynb#scrollTo=XMQuuun2R06J"""
     TrainingArgument = params['TrainingArgument']
@@ -123,57 +105,16 @@ def main(config_path):
     os.environ['WANDB_PROJECT'] = WANDB_PROJECT
     
     """Onnx Model Convertion Starts"""
-    # Albertconfig = AutoConfig.from_pretrained(model_name, label2id=Label2ID, id2label=ID2Label,  num_labels=Jdata['Number_of_Label'])
-    # mmodel= FeaturesManager._TASKS_TO_AUTOMODELS["sequence-classification"].from_pretrained(Best_path ,cache_dir =  base_model_path, config=Albertconfig)
-    # model_onnx_config = supported_features_mapping("sequence-classification", onnx_config_cls=AlbertOnnxConfig)
-    # onnx_config = model_onnx_config["sequence-classification"](mmodel.config)
-    # OrderedDict([("last_hidden_state", {0: "batch", 1: "sequence"}), ("pooler_output", {0: "batch"})])
-    # with torch.no_grad():
-    #     mmodel.config.return_dict = True
-    #     mmodel.eval()
-    #     if onnx_config.values_override is not None:
-    #         logging.info(f"Overriding {len(onnx_config.values_override)} configuration item(s)")
-    #         for override_config_key, override_config_value in onnx_config.values_override.items():
-    #             logging.info(f"\t- {override_config_key} -> {override_config_value}")
-    #             setattr(mmodel.config, override_config_key, override_config_value)
-        # model_inputs = config.generate_dummy_inputs(tokenizer, framework=TensorType.PYTORCH)
     inputs, outputs, model = parameters(features)
     mmodel = model(Best_path)
+    mmodel = mmodel.to('cpu')
+    # Generate dummy inputs
+    dummy = dict(tokenizer(["find flights arriving new york city next saturday"], return_tensors="pt").to('cpu'))
     with torch.no_grad():
         mmodel.config.return_dict = True
         mmodel.eval()
-    
-        # Generate dummy inputs
-        dummy = dict(tokenizer(["find flights arriving new york city next saturday"], return_tensors="pt"))
-        # onnx_outputs = list(onnx_config.outputs.keys())
-        # onnx_config.patch_ops()
         create_directory([Onnx_output_path]) 
         output = os.path.join(Onnx_output_path,"model.onnx")
-        # if opset < onnx_config.default_onnx_opset:
-        #     raise ValueError(
-        #     f"Opset {opset} is not sufficient to export Albert. "
-        #     f"At least  {onnx_config.default_onnx_opset} is required."
-        # )
-        # print(list(onnx_config.inputs.keys()))
-        # print(onnx_outputs)
-        # print(onnx_config.default_onnx_opset)   
-        # print(dict(chain(onnx_config.inputs.items(), onnx_config.outputs.items())) )
-        # print({name: axes for name, axes in chain(onnx_config.inputs.items(), onnx_config.outputs.items())})    
-        # export(
-        #     mmodel,
-        #     (dummy,),
-        #     f=output,
-        #     input_names=list(onnx_config.inputs.keys()),
-        #     output_names=onnx_outputs,
-        #     dynamic_axes= dict(chain(onnx_config.inputs.items(), onnx_config.outputs.items())) # {name: axes for name, axes in chain(onnx_config.inputs.items(), onnx_config.outputs.items())},
-        #     do_constant_folding=True,
-        #     # use_external_data_format=onnx_config.use_external_data_format(mmodel.num_parameters()),
-        #     # enable_onnx_checker=True,
-        #     opset_version= 11#onnx_config.default_onnx_opset #opset,
-        # )
-        # print(dict(chain(inputs.items(), outputs.items())))
-        # print(list(inputs.keys()))
-        # print(list(outputs.keys()))
         export(
                 mmodel,
                 (dummy,),
@@ -186,8 +127,17 @@ def main(config_path):
             )
      
     logging.info(f"Onnx Model Created {output}")
+    Compressed_Onnx_output_path = os.path.join(Onnx_output_path,"model_compressed.onnx")
+    CompressModel(output,Compressed_Onnx_output_path)
+    Quantized_Onnx_output_path = os.path.join(Onnx_output_path,"model_Quantized.onnx")
+    quantize_onnx_model(Compressed_Onnx_output_path,Quantized_Onnx_output_path)
     
-
+    # Orginal_Model = onnx.load(output)
+    # Compressed_Model = onnx.load(Compressed_Onnx_output_path)
+    # Quantized_Model = onnx.load(Quantized_Onnx_output_path)
+    
+    
+    
 """Marks the starting point of Stage >> 3 >>"""
 if __name__ == '__main__':
     args = argparse.ArgumentParser()

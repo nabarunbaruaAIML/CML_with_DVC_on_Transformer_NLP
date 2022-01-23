@@ -164,6 +164,11 @@ def main(config_path):
     """Callbacks Added : EarlyStop"""
     trainer.add_callback(EarlyStoppingCallback(early_stopping_patience= Early_Stopping_patience))
     # global_step, train_loss, out_metrics = trainer.train()
+    
+    """Just to check how good is the model before training"""
+    Pre_evalu = trainer.evaluate()
+    logging.info(f"Evalution of Model before training with Evalution Data {Pre_evalu}")
+    
     global_step, train_loss, out_metrics= trainer.train()
     
     trainer.save_model(Best_path)

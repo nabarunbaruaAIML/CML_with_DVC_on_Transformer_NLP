@@ -1,1 +1,4 @@
 /model.onnx
+/model_compressed.onnx
+/model_Quantized.onnx
+/model_compressed-opt.onnx

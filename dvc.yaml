@@ -96,6 +96,9 @@ stages:
       - Onnx.atol
     outs:
       - artifacts/Onnx_Output/model.onnx 
+      - artifacts/Onnx_Output/model_compressed.onnx
+      - artifacts/Onnx_Output/model_Quantized.onnx 
+      - artifacts/Onnx_Output/model_compressed-opt.onnx
        
 
 
