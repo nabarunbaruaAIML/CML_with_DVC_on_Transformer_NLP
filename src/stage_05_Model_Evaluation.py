@@ -119,17 +119,31 @@ def main(config_path):
     """Loading Tokenizer"""
     tokenizer = AutoTokenizer.from_pretrained(Best_path ,cache_dir =  base_model_path, use_fast=use_fast)
     logging.info(f"Loaded Tokenizer of Model {model_name} Succefully !")
-    dataset = dataset.map(tokenize_function, batched=True,remove_columns= dataset.features)
+    dataset1 = dataset.map(tokenize_function, batched=True,remove_columns= dataset.features)
     # tok_data = tokenizer(dataset['text'], return_tensors="np")
-    print(dataset[0])
+    # print(dataset1[0])
    
     options = SessionOptions()
     options.optimized_model_filepath = output
     session = InferenceSession(output, options, providers=['CPUExecutionProvider'])
+    for i,single in enumerate(dataset1):
+        # single_tok = single.map(tokenize_function, batched=True,remove_columns= single.features)
+        # print(dict(single ))
+        # print(single)
+        ort = {
+                'attention_mask': np.array(single['attention_mask']), 
+                'input_ids': np.array(single['input_ids']), 
+                'token_type_ids': np.array(single['token_type_ids'])
+        }
+        # print(ort)
+        outputs = session.run(None, ort )
+        print(outputs[0] )
+        if i==2:
+            break
+        
     
-    
-    outputs = session.run(None, dict(dataset[0]))
-    print(outputs[0] )
+    # outputs = session.run(None, dict(dataset[0]))
+    # print(outputs[0] )
     
     # dataset = load_dataset('csv',  data_files = string)
     # dataset_new = dataset['test']
