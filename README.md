@@ -79,8 +79,7 @@ Yes , More than rigidity it means a standard which way it becomes very easy for 
 
 ![FileStructure](./documentation_elements/FileStructure.png)
 
-As seen above, stage_01_load_save.py , stage_02_prepare_dataset.py , stage_03_train.py 
-are the stages of the DAG or the DVC pipeline. yaml files such as dvc.yaml , params.yaml (**This file Contains all the Parameter which are needed to perform experiments on Training Pipline via DVC Studio**) and config.yaml(**This file contains all the configuration for training pipeline**) carries the major mandatory configurations. dvc.yaml being the control file here with all the Stage details like follows :
+As seen above, stage_01_load_save.py , stage_02_prepare_dataset.py , stage_03_train.py, stage_04_onnx.py & stage_05_Model_Evalution.py are the stages of the DAG or the DVC pipeline. yaml files such as dvc.yaml(**This File controls the Pipeline**) , params.yaml (**This file Contains all the Parameter which are needed to perform experiments on Training Pipline via DVC Studio**) and config.yaml(**This file contains all the configuration for training pipeline**) carries the major mandatory configurations. dvc.yaml being the control file here with all the Stage details like follows :
 
 ![DVC config](./documentation_elements/dvc_config.png)
 
@@ -99,31 +98,33 @@ However the architecture pertinent to this repository can be seen in the below s
 #### Stages:
 In this Training Pipeline , We have three major Stages linearly arranged.
 
-1.Load and Save Data (stage_01_load_save.py)  : 
+1. Load and Save Data (stage_01_load_save.py)  : 
 Here the data is loaded from the S3 bucket and tockenization is done.
 
-2.Preparation of Dataset (stage_02_prepare_dataset.py)
+2. Preparation of Dataset (stage_02_prepare_dataset.py)
 Here the train test splitting , pre-processing of data for model training.
 
-3.Training the Model (stage_03_train.py)
+3. Training the Model (stage_03_train.py)
 Here the model is training with the needed hyperparameters and Callbacks 
 Finally, the model weights will be saved in the wandb (weight and Biases).Which is can fetched using wandb api.
 (please refer the respective documentation for more details)
 
-4.Converting Model to Onnx (Stage_04_Onnx.py)
+4. Converting Model to Onnx (Stage_04_Onnx.py)
 Here we are converting our weights to Onnx runtime framework. Standard Transformer Onnx convertion is available but we feel that it's not available for Sequence-Classification therefore we used our own logic to convert weights to Onnx runtime framework. Apart from converting we are also quantizing Onnx Model and pushing both to Weights & Biases and S3 Bucket, reason being if weights & Biases are not used by organization then person can still get the weights in S3 Bucket, also considering Information Security Compliance which is the need of the hour. It is recommended that the weights be stored in  secure storages for instance  S3 etc.
 
-We took reference for our development from this [Notebook by txtai](https://colab.research.google.com/github/neuml/txtai/blob/master/examples/18_Export_and_run_models_with_ONNX.ipynb#scrollTo=XMQuuun2R06J)
+    We took reference for our development from this [Notebook by txtai](https://colab.research.google.com/github/neuml/txtai/blob/master/examples/18_Export_and_run_models_with_ONNX.ipynb#scrollTo=XMQuuun2R06J)
 
-If you're new to Onnx then please refer Video from [Abhishek Thakur](https://www.youtube.com/watch?v=7nutT3Aacyw) for understanding the basics of Onnx. He has explained it in easiest possible manner.
+    If you're new to Onnx then please refer Video from [Abhishek Thakur](https://www.youtube.com/watch?v=7nutT3Aacyw) for understanding the basics of Onnx. He has explained it in easiest possible manner.
 
-One Issue we faced while implementing that was Albert Transformer model which was having size 46 MB when converted to Onnx was 341 MB which was strange for us, solution to it was given by Onnx Team which we implemented. Please refer this repository for the [Explanation](https://github.com/arjunKumbakkara/onnx_model_size_compression) 
+    One Issue we faced while implementing that was Albert Transformer model which was having size 46 MB when converted to Onnx was 341 MB which was strange for us, solution to it was given by Onnx Team which we implemented. Please refer this repository for the [Explanation](https://github.com/arjunKumbakkara/onnx_model_size_compression) 
 
-**Excerpt from ONNX Team on the Correctness of the solution:** 
-ALBERT model has shared weights among layers as part of the optimization from BERT . 
-The export  torch.onnx.export outputs the weights to different tensors as so model size becomes larger.
-Using the python Script of the [Repo](https://github.com/arjunKumbakkara/onnx_model_size_compression/blob/main/weight_onnx_runtime_compression.py) we can remove duplication of weights, and reduce model size
-ie,  Compare each pair of initializers, when they are the same, just remove one initializer, and update all reference of it to the other initializer.
+    **Excerpt from ONNX Team on the Correctness of the solution:** 
+    ALBERT model has shared weights among layers as part of the optimization from BERT . 
+    The export  torch.onnx.export outputs the weights to different tensors as so model size becomes larger.
+    Using the python Script of the [Repo](https://github.com/arjunKumbakkara/onnx_model_size_compression/blob/main/weight_onnx_runtime_compression.py) we can remove duplication of weights, and reduce model size
+    ie,  Compare each pair of initializers, when they are the same, just remove one initializer, and update all reference of it to the other initializer.
+
+5. In stage_05_Model_Evalution.py we are doing Onnx Model Evalution and Transfering Weights & logs to S3 Bucket & Weights & Biases.
 
 
 ![Training Pipeline](./documentation_elements/training_architecture.jpg)

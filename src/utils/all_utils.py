@@ -18,6 +18,11 @@ from onnxruntime.quantization import quantize_dynamic, QuantType
 from onnxruntime.transformers.onnx_model import OnnxModel
 from onnxruntime import InferenceSession, SessionOptions
 import torch
+import logging
+import boto3
+from botocore.exceptions import ClientError
+from tqdm import tqdm
+import wandb
 
 
 
@@ -244,7 +249,10 @@ def save_json(path, data):
         json.dump(data, f, indent=4)
 
     logging.info(f"json file saved at: {path}")
-    
+
+"""
+Method gets the input,output parameters and right Model.
+"""    
 def parameters( task):
         """
         Defines inputs and outputs for an ONNX model.
@@ -281,7 +289,7 @@ def parameters( task):
         config["zero-shot-classification"] = config["sequence-classification"]
 
         return (inputs,) + config[task]
-
+"""Model Compress the Onnx Model"""
 def CompressModel(uncompress,compress):
     model=onnx.load(uncompress)
     onnx_model=OnnxModel(model)
@@ -319,3 +327,76 @@ def quantize_onnx_model(onnx_model_path, quantized_model_path):
     quant = 'ONNX quantized model size (MB):', os.path.getsize(quantized_model_path)/(1024*1024)
     logging.info(norm)
     logging.info(quant)
+
+"""Reading Onnx Model and getting output"""    
+def Onnx_Sesion(Onnx_Model_Path,dataset):
+    options = SessionOptions()
+    options.optimized_model_filepath = Onnx_Model_Path
+    session = InferenceSession(Onnx_Model_Path, options, providers=['CPUExecutionProvider'])
+    label_list = []
+    output_list =[]
+    for i,single in enumerate(dataset):
+        
+        ort = {
+                'attention_mask': np.array(single['attention_mask'], dtype=np.int64).reshape(1,128), 
+                'input_ids': np.array(single['input_ids'], dtype=np.int64).reshape(1,128), 
+                'token_type_ids': np.array(single['token_type_ids'], dtype=np.int64).reshape(1,128)
+        }
+        
+        outputs = session.run(None, ort )
+        outputs_argmax = np.argmax(outputs[0] ,axis=1)
+        output_list.extend(outputs_argmax)
+        label_list.append(single['labels'])
+    return label_list,output_list
+
+
+def create_bucket(bucket_name, region=None):
+    """Create an S3 bucket in a specified region
+
+    If a region is not specified, the bucket is created in the S3 default
+    region (us-east-1).
+
+    :param bucket_name: Bucket to create
+    :param region: String region to create bucket in, e.g., 'us-west-2'
+    :return: True if bucket created, else False
+    """
+
+    # Create bucket
+    try:
+        if region is None:
+            s3_client = boto3.client('s3')
+            s3_client.create_bucket(Bucket=bucket_name)
+        else:
+            s3_client = boto3.client('s3', region_name=region)
+            location = {'LocationConstraint': region}
+            s3_client.create_bucket(Bucket=bucket_name,
+                                    CreateBucketConfiguration=location)
+    except ClientError as e:
+        logging.error(e)
+        return False
+    return True
+
+def Upload_to_S3(s3,bucket_name, local_data_dir,unwanted_file):
+    for dir in tqdm(local_data_dir, desc= 'Folders'):
+        dir_file =  os.listdir(dir)
+        for file in tqdm(dir_file, desc= 'Files from Directory'):
+            if (file not in unwanted_file):  # ['.gitignore','model.onnx']
+                # print(file)
+                local_path = os.path.join(dir,file)
+                s3.Object(bucket_name, file).upload_file(local_path)
+                logging.info(f"Model {file} Uploaded to S3 Busket Successfully")
+
+"""Weights & Baises Model Uploaded"""      
+def Weights_Baises(run,folder,unwanted_file):
+    for dir in tqdm(folder, desc= 'Folders'):
+        dir_file =  os.listdir(dir)
+        for file in tqdm(dir_file, desc= 'Files from Directory'):
+            if (file not in unwanted_file):  # ['.gitignore','model.onnx'] etc
+                local_path = os.path.join(dir,file)
+                replaced_text = file.replace('.onnx', '')
+                # print(replaced_text)
+                raw_model = wandb.Artifact(replaced_text, type='model',description='Onnx Model')
+                raw_model.add_file(local_path,file)
+                run.log_artifact(raw_model)
+                logging.info(f"Model {replaced_text} Uploaded to Weights and Baises Successfully")
+                

@@ -32,6 +32,7 @@ local_data_dirs:
 source_download_dirs: 
   - ../outside_data/Text_Classification
 
+Model_Repo: model-repo-text-classification
 source_S3:
   - online-project
 

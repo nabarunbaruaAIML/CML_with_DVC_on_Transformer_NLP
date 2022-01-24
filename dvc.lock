@@ -4,17 +4,17 @@ stages:
     cmd: python src/stage_01_load_save.py --config=configs/config.yaml --params=params.yaml
     deps:
     - path: configs/config.yaml
-      md5: a4f976e5d7606eac5c334d29d71f7596
-      size: 927
+      md5: 3c4a743c067bc745e14c4f83e90d81a5
+      size: 971
     - path: src/stage_01_load_save.py
       md5: e8587debf4e7f7020b93c1e4c5702c56
       size: 3535
     - path: src/utils/all_utils.py
-      md5: 2bc95a6a2987b883ab63da63525ab8a9
-      size: 12188
+      md5: cefaad9163bde565b6da4231ab6763d0
+      size: 15557
     params:
       params.yaml:
-        TrainingArgument.run_name: albert-base-v2_Run_DVC_4
+        TrainingArgument.run_name: albert-base-v2_Run_DVC_5
     outs:
     - path: artifacts/Data/atis_intents.csv
       md5: 9f19d740a9876212b24bc0dd89b508a1
@@ -32,18 +32,18 @@ stages:
       md5: 9f19d740a9876212b24bc0dd89b508a1
       size: 391936
     - path: configs/config.yaml
-      md5: a4f976e5d7606eac5c334d29d71f7596
-      size: 927
+      md5: 3c4a743c067bc745e14c4f83e90d81a5
+      size: 971
     - path: src/stage_02_prepare_dataset.py
       md5: 70fbd2c3369f88c09e36d238ee3732ab
       size: 4750
     - path: src/utils/all_utils.py
-      md5: 2bc95a6a2987b883ab63da63525ab8a9
-      size: 12188
+      md5: cefaad9163bde565b6da4231ab6763d0
+      size: 15557
     params:
       params.yaml:
         Dataset.test_size: 0.1
-        TrainingArgument.run_name: albert-base-v2_Run_DVC_4
+        TrainingArgument.run_name: albert-base-v2_Run_DVC_5
         model.base_model: albert-base-v2
         model.max_length: 128
         model.padding: max_length
@@ -51,7 +51,7 @@ stages:
         model.use_fast: true
     outs:
     - path: artifacts/Data/Dataset
-      md5: 40a4236dd2079e8e42b66b3f90510db9.dir
+      md5: b85f17cd0e25bb765e6a6869d1132c54.dir
       size: 3931995
       nfiles: 7
     - path: artifacts/Data/id2label.json
@@ -95,21 +95,21 @@ stages:
     cmd: python src/stage_03_train.py --config=configs/config.yaml --params=params.yaml
     deps:
     - path: artifacts/Data/Dataset
-      md5: 40a4236dd2079e8e42b66b3f90510db9.dir
+      md5: b85f17cd0e25bb765e6a6869d1132c54.dir
       size: 3931995
       nfiles: 7
     - path: artifacts/Data/label_num.json
       md5: 720ce1dfb128c5878d779d4ad13c3073
       size: 31
     - path: configs/config.yaml
-      md5: a4f976e5d7606eac5c334d29d71f7596
-      size: 927
+      md5: 3c4a743c067bc745e14c4f83e90d81a5
+      size: 971
     - path: src/stage_03_train.py
       md5: bdff1b27cb4bc15974f4d52308d625d6
       size: 8466
     - path: src/utils/all_utils.py
-      md5: 2bc95a6a2987b883ab63da63525ab8a9
-      size: 12188
+      md5: cefaad9163bde565b6da4231ab6763d0
+      size: 15557
     params:
       params.yaml:
         TrainingArgument.Cuda: false
@@ -128,7 +128,7 @@ stages:
         TrainingArgument.Weight_Decay: 0.01
         TrainingArgument.metric_name: matthews_correlation
         TrainingArgument.report_to: wandb
-        TrainingArgument.run_name: albert-base-v2_Run_DVC_4
+        TrainingArgument.run_name: albert-base-v2_Run_DVC_5
         model.base_model: albert-base-v2
         model.max_length: 128
         model.padding: max_length
@@ -136,47 +136,80 @@ stages:
         model.use_fast: true
     outs:
     - path: artifacts/Best_Model
-      md5: 10541e920ddebf39783ea3ef8a5deea0.dir
-      size: 48135438
+      md5: aee9585657583a5117895350aa5c7f4f.dir
+      size: 48135436
       nfiles: 7
     - path: artifacts/Sentence-Classif
-      md5: 93edfc13b6f13c7a419569b1923ca442.dir
-      size: 425307629
+      md5: 23dfb595c8108108c0f7b8bb3245a8b8.dir
+      size: 425307626
       nfiles: 30
     - path: wandb
-      md5: cef9f9fcd65292504cecc73273bcb69c.dir
-      size: 521953
+      md5: d22681030a61e203915dcd8a78e39230.dir
+      size: 509841
       nfiles: 9
   stage_04_Onnx:
     cmd: python src/stage_04_onnx.py --config=configs/config.yaml --params=params.yaml
     deps:
     - path: artifacts/Best_Model
-      md5: 10541e920ddebf39783ea3ef8a5deea0.dir
-      size: 48135438
+      md5: aee9585657583a5117895350aa5c7f4f.dir
+      size: 48135436
       nfiles: 7
     - path: configs/config.yaml
-      md5: a4f976e5d7606eac5c334d29d71f7596
-      size: 927
+      md5: 3c4a743c067bc745e14c4f83e90d81a5
+      size: 971
     - path: src/stage_04_onnx.py
-      md5: 90408ad13600f189e9bcf2cd14c23065
-      size: 6816
+      md5: 6b366f3c26fb9bfb039eb676f2580cf0
+      size: 5955
     - path: src/utils/all_utils.py
-      md5: 2bc95a6a2987b883ab63da63525ab8a9
-      size: 12188
+      md5: cefaad9163bde565b6da4231ab6763d0
+      size: 15557
     params:
       params.yaml:
         Onnx.atol: 0.0001
         Onnx.feature: sequence-classification
         Onnx.opset: 12
+        TrainingArgument.run_name: albert-base-v2_Run_DVC_5
         model.base_model: albert-base-v2
         model.use_fast: true
     outs:
     - path: artifacts/Onnx_Output/model.onnx
-      md5: 05e55aa3a361069f089dda485ee8749d
+      md5: b9d529853f4e1a4710dbf1abd56c7e69
       size: 358299451
     - path: artifacts/Onnx_Output/model_Quantized.onnx
-      md5: 19a0b2ce51348941355c1000a9966b0f
+      md5: 172d4cc783d3e48e925ba5a6e2acb5ca
       size: 11847311
+    - path: artifacts/Onnx_Output/model_compressed-opt.onnx
+      md5: 2001b9c586a9b34c6305dbd4823abc63
+      size: 46849185
     - path: artifacts/Onnx_Output/model_compressed.onnx
-      md5: b84d21933db905ea549d0776b20106e6
+      md5: bd38f585601098c584818d6272def76f
       size: 46869254
+  stage_05_Model_Evalution:
+    cmd: python src/stage_05_Model_Evaluation.py --config=configs/config.yaml --params=params.yaml
+    deps:
+    - path: artifacts/Onnx_Output/model.onnx
+      md5: 6d51c4ead386499c418328608e920a45
+      size: 358269459
+    - path: artifacts/Onnx_Output/model_Quantized.onnx
+      md5: 6534d50e54b6e2563b397dee36f27761
+      size: 11802321
+    - path: artifacts/Onnx_Output/model_compressed-opt.onnx
+      md5: 29d752ae51117da61faeddfb91988abe
+      size: 46840802
+    - path: artifacts/Onnx_Output/model_compressed.onnx
+      md5: e50209bcee3b7dd3cae55304f341c6c4
+      size: 46840802
+    - path: configs/config.yaml
+      md5: 3c4a743c067bc745e14c4f83e90d81a5
+      size: 971
+    - path: src/stage_05_Model_Evaluation.py
+      md5: d9790209a7f5c93393392c82428bc879
+      size: 9626
+    - path: src/utils/all_utils.py
+      md5: cefaad9163bde565b6da4231ab6763d0
+      size: 15557
+    params:
+      params.yaml:
+        TrainingArgument.WANDB_PROJECT: Text_Classification
+        TrainingArgument.metric_name: matthews_correlation
+        TrainingArgument.run_name: albert-base-v2_Run_DVC_5
