@@ -94,6 +94,8 @@ def main(config_path):
     TrainingArgument = params['TrainingArgument']
     metric_name = TrainingArgument['metric_name']
     WANDB_PROJECT = TrainingArgument['WANDB_PROJECT']
+    model = params['model']
+    max_length =  model['max_length']
     
     """ Configuration Initialization"""
     Onnx_output = config['Onnx_Output']
@@ -147,10 +149,10 @@ def main(config_path):
     dataset = load_from_disk(Dataset_path)
     dataset_new = dataset['test']
     
-    Orginal_Label,Orginal_Prediction = Onnx_Sesion(Original_Onnx_Model,dataset_new)
-    Compressed_Label,Compressed_Prediction = Onnx_Sesion(Compressed_Onnx_output_path,dataset_new)
-    Compressed_opt_Label,Compressed_opt_Prediction = Onnx_Sesion(Compressed_opt_Onnx_output_path,dataset_new)
-    Quantized_Label,Quantized_Prediction = Onnx_Sesion(Quantized_Onnx_output_path,dataset_new)
+    Orginal_Label,Orginal_Prediction = Onnx_Sesion(Original_Onnx_Model,dataset_new,max_length)
+    Compressed_Label,Compressed_Prediction = Onnx_Sesion(Compressed_Onnx_output_path,dataset_new,max_length)
+    Compressed_opt_Label,Compressed_opt_Prediction = Onnx_Sesion(Compressed_opt_Onnx_output_path,dataset_new,max_length)
+    Quantized_Label,Quantized_Prediction = Onnx_Sesion(Quantized_Onnx_output_path,dataset_new,max_length)
     
     Orginal_Eval = metric_loaded.compute(predictions=Orginal_Prediction, references=Orginal_Label)
     Compressed_Eval = metric_loaded.compute(predictions=Compressed_Prediction, references=Compressed_Label)

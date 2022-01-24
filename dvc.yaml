@@ -114,6 +114,7 @@ stages:
       - TrainingArgument.run_name
       - TrainingArgument.metric_name
       - TrainingArgument.WANDB_PROJECT
+      - model.max_length 
      
       
        

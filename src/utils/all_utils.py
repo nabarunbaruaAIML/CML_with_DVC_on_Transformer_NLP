@@ -329,7 +329,7 @@ def quantize_onnx_model(onnx_model_path, quantized_model_path):
     logging.info(quant)
 
 """Reading Onnx Model and getting output"""    
-def Onnx_Sesion(Onnx_Model_Path,dataset):
+def Onnx_Sesion(Onnx_Model_Path,dataset,max_length):
     options = SessionOptions()
     options.optimized_model_filepath = Onnx_Model_Path
     session = InferenceSession(Onnx_Model_Path, options, providers=['CPUExecutionProvider'])
@@ -338,10 +338,10 @@ def Onnx_Sesion(Onnx_Model_Path,dataset):
     for i,single in enumerate(dataset):
         
         ort = {
-                'attention_mask': np.array(single['attention_mask'], dtype=np.int64).reshape(1,128), 
-                'input_ids': np.array(single['input_ids'], dtype=np.int64).reshape(1,128), 
-                'token_type_ids': np.array(single['token_type_ids'], dtype=np.int64).reshape(1,128)
-        }
+                'attention_mask': np.array(single['attention_mask'], dtype=np.int64).reshape(1,max_length), 
+                'input_ids': np.array(single['input_ids'], dtype=np.int64).reshape(1,max_length), 
+                'token_type_ids': np.array(single['token_type_ids'], dtype=np.int64).reshape(1,max_length)
+              }
         
         outputs = session.run(None, ort )
         outputs_argmax = np.argmax(outputs[0] ,axis=1)
