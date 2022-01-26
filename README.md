@@ -6,9 +6,11 @@
 ## Nabarun Barua 
 - [Git](https://github.com/nabarunbaruaAIML)
 - [LinkedIn](https://www.linkedin.com/in/nabarun-barua-aiml-engineer/)
+- [Towardsdatascience](	https://medium.com/@nabarun.barua)
 ## Arjun Kumbakkara 
 - [Git](https://github.com/arjunKumbakkara)
 - [LinkedIn](https://www.linkedin.com/in/arjunkumbakkara/)
+- [Towardsdatascience](	https://medium.com/@arjunkumbakkara)
 
 
 ## Synopsis:
